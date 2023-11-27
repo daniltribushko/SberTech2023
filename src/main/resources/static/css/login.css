@@ -1,0 +1,53 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+body{
+    height: 100vh;
+    width: 100vw;
+    background: linear-gradient(#2b622b, #11e011,#e1e1e1);
+}
+
+
+.login-block {
+    width: 25vw;
+    height: 20vh;
+    background: #463d3d;
+    text-align: center;
+    position: relative;
+    right: -37.5vw;
+    top: +40vh;
+}
+
+input[type=password], input[type=text] {
+    position: relative;
+    height: 4.5vh;
+    width: 15vw;
+    font-size: 100%;
+    border-radius: 10px;
+}
+
+input[type=text]{
+   right: +0.75vw;
+}
+
+input[type=password]{
+    right: +1vw;
+}
+
+input[type=submit], button {
+    position: relative;
+    height: 4vh;
+    width: 7vw;
+    border-radius: 15px;
+}
+
+input[type=submit]{
+    right: +3.75vw;
+    top: +2vh;
+}
+
+button{
+    right: -3.75vw;
+    top: -2vh;
+}

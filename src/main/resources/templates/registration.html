@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+</head>
+<body>
+<main>
+    <!--Форма для регистрации пользователей-->
+    <form class="registration-user-form" method="post" th:action="@{/registration}"
+          th:object="${request}" autocomplete="off">
+        <p>
+            <label for="user-login">
+                Логин
+            </label>
+            <input id="user-login" type="text" th:field="*{login}" placeholder="Введите логин"/>
+        </p>
+        <p>
+            <label for="user-password">
+                Пароль
+            </label>
+            <input id="user-password" type="password" th:field="*{password}" placeholder="Введите пароль"
+                   minlength="8"/>
+        </p>
+        <p>
+            <label for="user-username">
+                Фамилия
+            </label>
+            <input id="user-username" type="text" th:field="*{sureName}" placeholder="Введите фамилию">
+        </p>
+        <p>
+            <label for="user-name">
+                Имя
+            </label>
+            <input id="user-name" type="text" th:field="*{name}" placeholder="Введите имя">
+        </p>
+        <p>
+            <label for="role">
+                Роль
+            </label>
+            <select id="role" th:field="*{role}">
+                <option selected disabled value="">Выберите роль</option>
+                <option th:each="userRole:${roles}" th:value="${userRole}" th:text="${userRole}"/>
+            </select>
+        </p>
+        <p>
+            <input type="submit" value="Зарегестрироваться">
+        </p>
+    </form>
+</main>
+</body>
+</html>

@@ -21,8 +21,7 @@ public class AuthConfig {
                         .requestMatchers(
                                 "/login",
                                 "/registration",
-                                "/logout",
-                                "/").permitAll()
+                                "/logout").permitAll()
                         .requestMatchers("/css/**").permitAll()
                         .requestMatchers("/js/**").permitAll()
                         .requestMatchers("/admin").hasRole("ADMIN")

@@ -12,16 +12,10 @@
         <form class="login-form" method="post"
               th:action="@{/login}" th:object="${request}" autocomplete="off">
             <p>
-                <label for="user_login">
-                    Логин
-                </label>
                 <input id="user_login" type="text"
                        th:field="*{username}" placeholder="Введите логин" required/>
             </p>
             <p>
-                <label for="user_password">
-                    Пароль
-                </label>
                 <input id="user_password" type="password"
                        th:field="*{password}" placeholder="Введите пароль" required minlength="8"/>
             </p>

@@ -3,55 +3,56 @@
     margin: 0;
 }
 body{
+    text-align: center;
     height: 100vh;
     width: 100vw;
     background: linear-gradient(#2b622b, #11e011,#e1e1e1);
 }
 
-
-.login-block {
-    width: 25vw;
-    height: 25vh;
-    background: #463d3d;
-    text-align: center;
+input[type=text], input[type=password], select{
     position: relative;
-    right: -37.5vw;
-    top: +40vh;
-    border-radius: 15px;
-}
-
-input[type=password], input[type=text] {
-    position: relative;
+    top: 1vh;
     margin-top: 1vh;
     margin-bottom: 1vh;
-    top: +2vh;
     height: 4.5vh;
     width: 15vw;
     font-size: 100%;
     border-radius: 10px;
 }
 
+.registration-block{
+    position: relative;
+    text-align: center;
+    background-color: #463d3d;
+    height: 50vh;
+    width: 25vw;
+    border-radius: 15px;
+    right: -37.5vw;
+    top: +25vh;
+}
+
 input[type=submit], button {
     font-weight: bold;
+    margin-top: 0.5vh;
+    margin-bottom: 0.5vh;
     opacity: 0.75;
     border-color: black;
     border-width: 0.25vw;
     background-color: white;
     position: relative;
+    top: +1vh;
     height: 4vh;
-    width: 7vw;
     border-radius: 15px;
+}
+
+input[type=submit] {
+    width: 10vw;
+}
+
+button{
+    width: 7vw;
 }
 
 input[type=submit]:hover, button:hover{
     background-color: #86e792;
-}
-
-input[type=submit]{
-    right: +3.75vw;
-    top: +4vh;
-}
-
-button{
-    right: -3.75vw;
 }

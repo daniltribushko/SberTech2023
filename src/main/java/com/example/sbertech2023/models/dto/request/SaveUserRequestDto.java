@@ -4,6 +4,7 @@ import com.example.sbertech2023.models.entities.User;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.validation.annotation.Validated;
 
 /**
@@ -29,7 +30,7 @@ public class SaveUserRequestDto {
     private String role;
 
     @NotBlank
-    @Min(value = 8, message = "password length can not be less than 8")
+    @Length(min = 8, message = "password length can not be less than 8")
     private String password;
 
     public User mapToEntity(){

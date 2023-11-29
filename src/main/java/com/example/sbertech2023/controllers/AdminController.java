@@ -36,27 +36,44 @@ public class AdminController {
         return "admin";
     }
 
-    @PostMapping("/district/create")
+    @PostMapping("/districts/create")
     public String createNewDistrict(@Valid DistrictOrMicroDistrictRequestDto request){
         districtAndMicroDistrictService.saveDistrict(request);
         return "redirect:/admin";
     }
 
-    @PostMapping("/micro-district/create")
+    @PostMapping("/micro-districts/create")
     public String createNewMicroDistrict(@Valid DistrictOrMicroDistrictRequestDto request){
         districtAndMicroDistrictService.saveMicroDistrict(request);
         return "redirect:/admin";
     }
 
-    @PostMapping("/district/{id}/delete")
+    @PostMapping("/districts/{id}/delete")
     public String deleteDistrict(@Min(value = 1, message = "id can not be less than 1") @PathVariable Integer id){
         districtAndMicroDistrictService.deleteDistrict(id);
         return "redirect:/admin";
     }
 
-    @PostMapping("/micro-district/{id}/delete")
+    @PostMapping("/micro-districts/{id}/delete")
     public String deleteMicroDistrict(@Min(value = 1, message = "id can not be less than 1") @PathVariable Integer id){
         districtAndMicroDistrictService.deleteMicroDistrict(id);
+        return "redirect:/admin";
+    }
+
+    @PostMapping("/districts/{id}/add/micro-district")
+    public String addMicroDistrictInDistrict(
+            @Min(value = 1, message = "id can not be less than 1") @PathVariable Integer id,
+            @Valid DistrictOrMicroDistrictRequestDto request){
+        districtAndMicroDistrictService.addMicroDistrictInDistrict(id, request);
+        return "redirect:/admin";
+    }
+
+    @PostMapping("/district/{id}/delete/micro-district")
+    public String deleteMicroDistrictFromDistrict(
+            @Min(value = 1, message = "id can not be less than 1") @PathVariable Integer id,
+            @Valid DistrictOrMicroDistrictRequestDto request
+    ){
+        districtAndMicroDistrictService.deleteMicroDistrictFromDistrict(id, request);
         return "redirect:/admin";
     }
 }

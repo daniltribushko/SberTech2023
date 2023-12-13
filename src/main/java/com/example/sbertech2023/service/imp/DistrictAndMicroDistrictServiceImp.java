@@ -10,6 +10,8 @@ import com.example.sbertech2023.service.DistrictAndMicroDistrictService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @author Tribushko Danil
  * @since 28.11.2023
@@ -27,6 +29,11 @@ public class DistrictAndMicroDistrictServiceImp implements DistrictAndMicroDistr
         this.microDistrictRepository = microDistrictRepository;
     }
 
+    /**
+     * Сохранение района в бд
+     *
+     * @param request запрос на работу с районом
+     */
     @Override
     public void saveDistrict(DistrictOrMicroDistrictRequestDto request) {
         District district = districtRepository.findByName(request.getName())
@@ -38,6 +45,11 @@ public class DistrictAndMicroDistrictServiceImp implements DistrictAndMicroDistr
         }
     }
 
+    /**
+     * Сохранение микрорайона в бд
+     *
+     * @param request запрос на работу с микрорайоном
+     */
     @Override
     public void saveMicroDistrict(DistrictOrMicroDistrictRequestDto request) {
         MicroDistrict microDistrict = microDistrictRepository.findByName(request.getName())
@@ -49,6 +61,11 @@ public class DistrictAndMicroDistrictServiceImp implements DistrictAndMicroDistr
         }
     }
 
+    /**
+     * Удаление района
+     *
+     * @param id id района
+     */
     @Override
     public void deleteDistrict(Integer id) {
         District district = districtRepository.findById(id)
@@ -56,6 +73,11 @@ public class DistrictAndMicroDistrictServiceImp implements DistrictAndMicroDistr
         districtRepository.delete(district);
     }
 
+    /**
+     * Удаление микрорайона
+     *
+     * @param id id микрорайона
+     */
     @Override
     public void deleteMicroDistrict(Integer id) {
         MicroDistrict microDistrict = microDistrictRepository.findById(id)
@@ -63,6 +85,12 @@ public class DistrictAndMicroDistrictServiceImp implements DistrictAndMicroDistr
         microDistrictRepository.delete(microDistrict);
     }
 
+    /**
+     * Добавление микрорайона в район
+     *
+     * @param id id района
+     * @param request запрос на работу с микрорайоном
+     */
     @Override
     public void addMicroDistrictInDistrict(Integer id, DistrictOrMicroDistrictRequestDto request) {
         District district = districtRepository.findById(id)
@@ -73,13 +101,58 @@ public class DistrictAndMicroDistrictServiceImp implements DistrictAndMicroDistr
         districtRepository.save(district);
     }
 
+    /**
+     * Удаление микрорайона из района
+     *
+     * @param id id района
+     * @param name название микрорайона
+     */
     @Override
-    public void deleteMicroDistrictFromDistrict(Integer id, DistrictOrMicroDistrictRequestDto request) {
+    public void deleteMicroDistrictFromDistrict(Integer id, String name) {
         District district = districtRepository.findById(id)
                 .orElseThrow(() -> new DistrictByIdNotFoundException(id));
-        MicroDistrict microDistrict = microDistrictRepository.findByName(request.getName())
-                .orElseThrow(() -> new MicroDistrictNotFoundException(request.getName()));
+        MicroDistrict microDistrict = microDistrictRepository.findByName(name)
+                .orElseThrow(() -> new MicroDistrictNotFoundException(name));
         district.removeMicroDistrict(microDistrict);
         districtRepository.save(district);
+    }
+
+    /**
+     * Получение всех районов
+     *
+     * @return список районов
+     */
+    @Override
+    public List<District> findAllDistricts() {
+        return districtRepository.findAll();
+    }
+
+    /**
+     * Получение всех микрорайонов
+     *
+     * @return список микрорайонов
+     */
+    @Override
+    public List<MicroDistrict> findAllMicroDistricts() {
+        return microDistrictRepository.findAll();
+    }
+
+    /**
+     * Получение всех микрорайонов по району
+     *
+     * @param request запрос на работу с районами и микрорайонами
+     * @return список микрорайонов
+     */
+    @Override
+    public List<MicroDistrict> findAllMicroDistrictsByDistrict(DistrictOrMicroDistrictRequestDto request) {
+        List<MicroDistrict> microDistricts;
+        if (request != null){
+            District district = districtRepository.findByName(request.getName())
+                    .orElseThrow(() -> new DistrictNotFoundException(request.getName()));
+            microDistricts = microDistrictRepository.findAllByDistrict(district);
+        }else {
+            microDistricts = microDistrictRepository.findAllByDistrict(null);
+        }
+        return microDistricts;
     }
 }

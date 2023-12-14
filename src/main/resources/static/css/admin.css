@@ -1,0 +1,38 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+h1, time {
+    position: relative;
+    color: #ffffff;
+}
+
+header {
+    text-align: right;
+    background-color: #5b5a5a;
+    height: 7.5vh;
+}
+
+select {
+    width: 8vw;
+    height: 2vh;
+}
+
+table.districts td {
+    height: 7.5vh;
+    background-color: #8f8c8c;
+    width: 50vw;
+}
+
+
+
+table.districts {
+    position: relative;
+    background-color: #f6f4f4;
+}
+
+table.districts .d-name {
+    font-size: 3vh;
+    text-overflow: initial;
+}

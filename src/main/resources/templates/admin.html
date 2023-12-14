@@ -1,12 +1,103 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Admin</title>
+    <link th:href="@{/css/admin.css}" rel="stylesheet">
 </head>
 <body>
+<header>
+    <h1 th:text="${username.name}"/>
+    <time th:text="${time}"/>
+</header>
 <main>
-
+    <!-- Форма для добавления районов в бд-->
+    <form class="add-district" method="post" action="/admin/districts/create"
+          th:object="${districtOrMicroDistrictRequest}" autocomplete="off">
+        <!-- csrf токен-->
+        <input type="hidden" th:name="${_csrf.getParameterName()}" th:value="${_csrf.getToken()}"/>
+        <!-- Поле для название района-->
+        <input id="district-name" th:field="*{name}" type="text"
+               placeholder="Введите название региона"/>
+        <input type="submit" value="Сохранить"/>
+    </form>
+    <!-- Форма для добавления микрорайона в бд-->
+    <form class="add-microdistrict" method="post" action="/admin/micro-districts/create"
+          th:object="${districtOrMicroDistrictRequest}" autocomplete="off">
+        <!-- csrf токен-->
+        <input type="hidden" th:name="${_csrf.getParameterName()}" th:value="${_csrf.getToken()}"/>
+        <!-- Поле для названия микрорайона-->
+        <input id="microdistrict-name" type="text" th:field="*{name}"
+               placeholder="Введите название микрорегиона"/>
+        <input type="submit" value="Сохранить"/>
+    </form>
+    <!-- Таблица с микрорайонами без районов-->
+    <table class="micro-districts-without-district">
+        <tr id="microdistrict">
+            Название микрорайона
+        </tr>
+        <tr>
+            <!-- Микрорайоны -->
+            <td class="null-micro-district" th:each="microDistrict:${nulMicroDistricts}">
+                <!-- Название микрорайона-->
+                <p th:text="${microDistrict.getName()}"/>
+                <!-- Форма для удаления микрорайонов-->
+                <form th:action="@{'/admin/micro-districts/' + ${microDistrict.id} + '/delete'}" method="post">
+                    <input type="hidden" th:name="${_csrf.getParameterName()}" th:value="${_csrf.getToken()}"/>
+                    <input type="submit" value="Удалить">
+                </form>
+            </td>
+        </tr>
+    </table>
+    <!-- Таблица районов-->
+    <table class="districts">
+        <tr>
+            <td class="d-title">
+                Названий района
+            </td>
+            <td class="md-title">
+                Микрорайоны
+            </td>
+        </tr>
+        <tr th:each="district:${districts}">
+            <!-- Название района-->
+            <td class="d-name" id="district-field-name" th:text="${district} ? ${district.getName()}"/>
+            <td>
+                <!-- Форма для удаления района-->
+                <form th:action="@{'/admin/districts/' + ${district.getId()} + '/delete'}" method="post">
+                    <input type="hidden" th:name="${_csrf.getToken()}" th:value="${_csrf.getParameterName()}"/>
+                    <input type="submit" value="Удалить">
+                </form>
+            </td>
+            <td>
+                <!-- Форма для добавления микрорайонов в район-->
+                <form method="post" th:action="@{'/admin/districts/' + ${district.id} + '/add/micro-district'}"
+                      th:object="${districtOrMicroDistrictRequest}">
+                    <!-- csrf токен-->
+                    <input type="hidden" th:name="${_csrf.getParameterName()}" th:value="${_csrf.getToken()}"/>
+                    <!-- Микрорайоны без районов -->
+                    <select th:field="*{name}">
+                        <option th:each="md:${nulMicroDistricts}" th:value="${md.name}" th:text="${md.name}"/>
+                    </select>
+                    <input type="submit" value="Добавить">
+                </form>
+            </td>
+            <!-- Микрорайоны района-->
+            <td class="district-table-field" th:if="${district} != null" th:each="microDistrict:${district.getMicroDistricts()}">
+                <!-- Название микрорайона-->
+                <p class="d-name" th:text="${microDistrict.getName()}">
+                    <!-- Форма для удаления микрорайона из района-->
+                <form th:action="@{'/admin/district/' + ${microDistrict.getDistrict().getId()} + '/delete/micro-district'}"
+                      method="post">
+                    <!-- Название микрорайона -->
+                    <input type="hidden" name="name" th:value="${microDistrict.getName()}"/>
+                    <!-- csrf токен-->
+                    <input type="hidden" th:name="${_csrf.getParameterName()}" th:value="${_csrf.getToken()}"/>
+                    <input type="submit" value="Убрать микрорайон"/>
+                </form>
+            </td>
+        </tr>
+    </table>
 </main>
 </body>
 </html>

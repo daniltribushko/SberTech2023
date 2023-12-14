@@ -12,17 +12,17 @@
         <form class="registration-user-form" method="post" th:action="@{/registration}"
               th:object="${request}" autocomplete="off">
             <p>
-                <input id="user-login" type="text" th:field="*{login}" placeholder="Введите логин"/>
+                <input id="user-login" type="text" th:field="*{login}" placeholder="Введите логин" required/>
             </p>
             <p>
                 <input id="user-password" type="password" th:field="*{password}" placeholder="Введите пароль"
-                       minlength="8"/>
+                       minlength="8" required/>
             </p>
             <p>
-                <input id="user-username" type="text" th:field="*{sureName}" placeholder="Введите фамилию">
+                <input id="user-username" type="text" th:field="*{sureName}" placeholder="Введите фамилию" required>
             </p>
             <p>
-                <input id="user-name" type="text" th:field="*{name}" placeholder="Введите имя">
+                <input id="user-name" type="text" th:field="*{name}" placeholder="Введите имя" required>
             </p>
             <p>
                 <select id="role" th:field="*{role}">

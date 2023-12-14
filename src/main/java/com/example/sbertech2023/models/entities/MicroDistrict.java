@@ -7,6 +7,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * @author Tribushko Danil
@@ -25,15 +26,37 @@ public class MicroDistrict {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    /**
+     * Название микрорайона
+     */
     @Column(name = "name", nullable = false)
     private String name;
 
+    /**
+     * Сущность района, в котором находится микрорайон
+     */
     @ManyToOne
     @JoinColumn(name = "district_id")
     private District district;
 
+    /**
+     * Множество обращений
+     */
+    @OneToMany(mappedBy = "microDistrict")
+    private Set<Appeal> appeals;
+
     public MicroDistrict(String name){
         this.name = name;
+    }
+
+    /**
+     * Добавление обращения в множество
+     *
+     * @param appeal сущность обращения
+     */
+    public void addAppeal(Appeal appeal){
+        appeal.setMicroDistrict(this);
+        appeals.add(appeal);
     }
 
     @Override

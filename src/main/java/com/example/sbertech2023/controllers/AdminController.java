@@ -2,6 +2,7 @@ package com.example.sbertech2023.controllers;
 
 import com.example.sbertech2023.models.dto.request.DistrictOrMicroDistrictRequestDto;
 import com.example.sbertech2023.service.DistrictAndMicroDistrictService;
+import com.example.sbertech2023.service.auth.UserService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -13,6 +14,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.security.Principal;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 /**
  * @author Tribushko Danil
  * @since 28.11.2023
@@ -23,17 +28,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/admin")
 public class AdminController {
     private final DistrictAndMicroDistrictService districtAndMicroDistrictService;
+    private final UserService userService;
 
     @Autowired
-    public AdminController(DistrictAndMicroDistrictService districtAndMicroDistrictService){
+    public AdminController(
+            DistrictAndMicroDistrictService districtAndMicroDistrictService,
+            UserService userService){
         this.districtAndMicroDistrictService = districtAndMicroDistrictService;
+        this.userService = userService;
     }
 
     @GetMapping("")
-    public String viewAdminPage(Model model){
+    public String viewAdminPage(Model model, Principal principal){
         model.addAttribute("districtOrMicroDistrictRequest",
                 new DistrictOrMicroDistrictRequestDto()
         );
+        model.addAttribute("username", userService.findUserByUserName(principal.getName()));
+        model.addAttribute("time", LocalDateTime.now()
+                .format(DateTimeFormatter.ofPattern("HH:mm - dd:MM:yyyy")));
         model.addAttribute("nulMicroDistricts",
                 districtAndMicroDistrictService.findAllMicroDistrictsByDistrict(null));
         model.addAttribute("districts", districtAndMicroDistrictService.findAllDistricts());

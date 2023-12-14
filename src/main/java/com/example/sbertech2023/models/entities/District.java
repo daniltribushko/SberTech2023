@@ -6,8 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.util.HashSet;
 import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * @author Tribushko Danil
@@ -34,7 +34,7 @@ public class District {
 
     public District(String name){
         this.name = name;
-        microDistricts = new HashSet<>();
+        microDistricts = new TreeSet<>();
     }
 
     public void addMicroDistrict(MicroDistrict microDistrict){

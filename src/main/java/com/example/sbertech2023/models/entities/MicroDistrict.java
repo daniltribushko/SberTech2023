@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.Objects;
+
 /**
  * @author Tribushko Danil
  * @since 28.11.2023
@@ -32,5 +34,18 @@ public class MicroDistrict {
 
     public MicroDistrict(String name){
         this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MicroDistrict that = (MicroDistrict) o;
+        return Objects.equals(name, that.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
     }
 }

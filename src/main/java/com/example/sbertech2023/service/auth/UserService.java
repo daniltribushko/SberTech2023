@@ -1,6 +1,7 @@
 package com.example.sbertech2023.service.auth;
 
 import com.example.sbertech2023.exceptions.UserAlreadyExistException;
+import com.example.sbertech2023.exceptions.UserByUserNameNotFoundException;
 import com.example.sbertech2023.exceptions.WrongRoleException;
 import com.example.sbertech2023.models.dto.request.SaveUserRequestDto;
 import com.example.sbertech2023.models.entities.User;
@@ -15,6 +16,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -34,6 +36,11 @@ public class UserService implements UserDetailsService {
             BCryptPasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+    }
+
+    public User findUserByUserName(String userName){
+        return userRepository.findByLogin(userName)
+                .orElseThrow(() -> new UserByUserNameNotFoundException(userName));
     }
 
     /**

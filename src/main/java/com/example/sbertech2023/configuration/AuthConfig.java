@@ -1,5 +1,8 @@
 package com.example.sbertech2023.configuration;
 
+import com.example.sbertech2023.models.enums.Role;
+import com.example.sbertech2023.service.auth.AuthSecurityHandler;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -14,6 +17,13 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class AuthConfig {
+    private final AuthSecurityHandler handler;
+
+    @Autowired
+    public AuthConfig(AuthSecurityHandler handler){
+        this.handler = handler;
+    }
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
@@ -24,12 +34,12 @@ public class AuthConfig {
                                 "/logout").permitAll()
                         .requestMatchers("/css/**").permitAll()
                         .requestMatchers("/js/**").permitAll()
-                        .requestMatchers("/admin").hasRole("ADMIN")
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .formLogin(login -> login
                         .loginPage("/login")
-                        .defaultSuccessUrl("/")
+                        .successHandler(handler)
                         .permitAll());
         return httpSecurity.build();
     }

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
  * @since 27.11.2023
  */
 @Controller
-public class MainController {
+public class UserController {
     @GetMapping("/")
     public String viewMainPage(){
         return "main";

@@ -1,9 +1,14 @@
 package com.example.sbertech2023.service;
 
 import com.example.sbertech2023.models.dto.request.DistrictOrMicroDistrictRequestDto;
+import com.example.sbertech2023.models.entities.District;
+import com.example.sbertech2023.models.entities.MicroDistrict;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.validation.annotation.Validated;
+
+import java.util.List;
 
 /**
  * @author Tribushko Danil
@@ -50,9 +55,25 @@ public interface DistrictAndMicroDistrictService {
     /**
      * Удаление микрорайона из рацона
      * @param id id района
-     * @param request запрос на работу с микрорайоном
+     * @param name название микрорайона
      */
     void deleteMicroDistrictFromDistrict(
             @Min(value = 1, message = "Id can not be less than 1") Integer id,
-            @Valid DistrictOrMicroDistrictRequestDto request);
+            @NotBlank String name);
+
+    /**
+     * Получение всех районов из бд
+     * @return список районов
+     */
+    List<District> findAllDistricts();
+
+    /**
+     * Получение всех микрорайонов
+     */
+    List<MicroDistrict> findAllMicroDistricts();
+
+    /**
+     * Получение всех микрорацонов по району
+     */
+    List<MicroDistrict> findAllMicroDistrictsByDistrict(@Valid DistrictOrMicroDistrictRequestDto request);
 }

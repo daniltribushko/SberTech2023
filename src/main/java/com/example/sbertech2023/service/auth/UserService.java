@@ -36,6 +36,13 @@ public class UserService implements UserDetailsService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    /**
+     * Получение пользователя по логину
+     *
+     * @param username the username identifying the user whose data is required.
+     * @return пользователь
+     * @throws UsernameNotFoundException пользователь с текущем логином не найден
+     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByLogin(username)
@@ -45,11 +52,16 @@ public class UserService implements UserDetailsService {
                 user.getPassword(),
                 user.getRoles()
                         .stream()
-                        .map(r -> new SimpleGrantedAuthority(r.name()))
+                        .map(r -> new SimpleGrantedAuthority("ROLE_" + r.name()))
                         .toList())
                 ;
     }
 
+    /**
+     * Сохранение нового пользователя
+     *
+     * @param request запрос на сохранение пользователя
+     */
     public void saveUser(SaveUserRequestDto request){
         User user = userRepository.findByLogin(request.getLogin())
                 .orElse(null);

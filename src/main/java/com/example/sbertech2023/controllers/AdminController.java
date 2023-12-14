@@ -4,6 +4,7 @@ import com.example.sbertech2023.models.dto.request.DistrictOrMicroDistrictReques
 import com.example.sbertech2023.service.DistrictAndMicroDistrictService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,11 +29,14 @@ public class AdminController {
         this.districtAndMicroDistrictService = districtAndMicroDistrictService;
     }
 
-    @GetMapping("/")
+    @GetMapping("")
     public String viewAdminPage(Model model){
         model.addAttribute("districtOrMicroDistrictRequest",
                 new DistrictOrMicroDistrictRequestDto()
         );
+        model.addAttribute("nulMicroDistricts",
+                districtAndMicroDistrictService.findAllMicroDistrictsByDistrict(null));
+        model.addAttribute("districts", districtAndMicroDistrictService.findAllDistricts());
         return "admin";
     }
 
@@ -71,9 +75,9 @@ public class AdminController {
     @PostMapping("/district/{id}/delete/micro-district")
     public String deleteMicroDistrictFromDistrict(
             @Min(value = 1, message = "id can not be less than 1") @PathVariable Integer id,
-            @Valid DistrictOrMicroDistrictRequestDto request
+            @NotBlank String name
     ){
-        districtAndMicroDistrictService.deleteMicroDistrictFromDistrict(id, request);
+        districtAndMicroDistrictService.deleteMicroDistrictFromDistrict(id, name);
         return "redirect:/admin";
     }
 }

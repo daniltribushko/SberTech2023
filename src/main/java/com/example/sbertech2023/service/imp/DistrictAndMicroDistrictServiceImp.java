@@ -52,12 +52,12 @@ public class DistrictAndMicroDistrictServiceImp implements DistrictAndMicroDistr
      */
     @Override
     public void saveMicroDistrict(DistrictOrMicroDistrictRequestDto request) {
-        MicroDistrict microDistrict = microDistrictRepository.findByName(request.getName())
-                .orElse(null);
+        String name = request.getName();
+        MicroDistrict microDistrict = findMicroDistrictByName(name);
         if (microDistrict != null){
-            throw new MicroDistrictAlreadyExistException(request.getName());
+            throw new MicroDistrictAlreadyExistException(name);
         } else {
-            microDistrictRepository.save(new MicroDistrict(request.getName()));
+            microDistrictRepository.save(new MicroDistrict(name));
         }
     }
 
@@ -68,8 +68,7 @@ public class DistrictAndMicroDistrictServiceImp implements DistrictAndMicroDistr
      */
     @Override
     public void deleteDistrict(Integer id) {
-        District district = districtRepository.findById(id)
-                .orElseThrow(() -> new DistrictByIdNotFoundException(id));
+        District district = findDistrictById(id);
         districtRepository.delete(district);
     }
 
@@ -80,8 +79,7 @@ public class DistrictAndMicroDistrictServiceImp implements DistrictAndMicroDistr
      */
     @Override
     public void deleteMicroDistrict(Integer id) {
-        MicroDistrict microDistrict = microDistrictRepository.findById(id)
-                .orElseThrow(() -> new MicroDistrictByIdNotFoundException(id));
+        MicroDistrict microDistrict = findMicroDistrictById(id);
         microDistrictRepository.delete(microDistrict);
     }
 
@@ -93,10 +91,8 @@ public class DistrictAndMicroDistrictServiceImp implements DistrictAndMicroDistr
      */
     @Override
     public void addMicroDistrictInDistrict(Integer id, DistrictOrMicroDistrictRequestDto request) {
-        District district = districtRepository.findById(id)
-                .orElseThrow(() -> new DistrictByIdNotFoundException(id));
-        MicroDistrict microDistrict = microDistrictRepository.findByName(request.getName())
-                .orElseThrow(() -> new MicroDistrictNotFoundException(request.getName()));
+        District district = findDistrictById(id);
+        MicroDistrict microDistrict = findMicroDistrictByName(request.getName());
         district.addMicroDistrict(microDistrict);
         districtRepository.save(district);
     }
@@ -109,12 +105,33 @@ public class DistrictAndMicroDistrictServiceImp implements DistrictAndMicroDistr
      */
     @Override
     public void deleteMicroDistrictFromDistrict(Integer id, String name) {
-        District district = districtRepository.findById(id)
-                .orElseThrow(() -> new DistrictByIdNotFoundException(id));
-        MicroDistrict microDistrict = microDistrictRepository.findByName(name)
-                .orElseThrow(() -> new MicroDistrictNotFoundException(name));
+        District district = findDistrictById(id);
+        MicroDistrict microDistrict = findMicroDistrictByName(name);
         district.removeMicroDistrict(microDistrict);
         districtRepository.save(district);
+    }
+
+    @Override
+    public District findDistrictByName(String name) {
+        return districtRepository.findByName(name)
+                .orElseThrow(() -> new DistrictNotFoundException(name));
+    }
+
+    @Override
+    public MicroDistrict findMicroDistrictByName(String name) {
+        return microDistrictRepository.findByName(name)
+                .orElseThrow(() -> new MicroDistrictNotFoundException(name));
+    }
+
+    @Override
+    public District findDistrictById(Integer id) {
+        return districtRepository.findById(id)
+                .orElseThrow(() -> new DistrictByIdNotFoundException(id));
+    }
+
+    @Override
+    public MicroDistrict findMicroDistrictById(Integer id) {
+        return null;
     }
 
     /**
@@ -147,8 +164,7 @@ public class DistrictAndMicroDistrictServiceImp implements DistrictAndMicroDistr
     public List<MicroDistrict> findAllMicroDistrictsByDistrict(DistrictOrMicroDistrictRequestDto request) {
         List<MicroDistrict> microDistricts;
         if (request != null){
-            District district = districtRepository.findByName(request.getName())
-                    .orElseThrow(() -> new DistrictNotFoundException(request.getName()));
+            District district = findDistrictByName(request.getName());
             microDistricts = microDistrictRepository.findAllByDistrict(district);
         }else {
             microDistricts = microDistrictRepository.findAllByDistrict(null);

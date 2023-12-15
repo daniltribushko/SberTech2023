@@ -37,4 +37,12 @@ public interface ViolationTypeService {
      */
     ViolationType findViolationTypeById(@Min(value = 1,
             message = "Id can not be less than 1") Integer id);
+
+    /**
+     * Получение типа нарушения по навзанию
+     *
+     * @param name название типа нарушения
+     * @return тип нарушения
+     */
+    ViolationType findViolationTypeByName(@NotBlank String name);
 }

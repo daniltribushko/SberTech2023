@@ -1,6 +1,7 @@
 package com.example.sbertech2023.service.imp;
 
 import com.example.sbertech2023.exceptions.ViolationTypeAlreadyExistException;
+import com.example.sbertech2023.exceptions.ViolationTypeByNameNotFoundException;
 import com.example.sbertech2023.exceptions.ViolationTypeNotFoundException;
 import com.example.sbertech2023.models.entities.ViolationType;
 import com.example.sbertech2023.repositories.ViolationTypeRepository;
@@ -25,8 +26,7 @@ public class ViolationTypeServiceImp implements ViolationTypeService {
 
     @Override
     public void saveViolationType(String name) {
-        ViolationType violationType = violationTypeRepository.findByName(name)
-                .orElse(null);
+        ViolationType violationType = findViolationTypeByName(name);
         if (violationType != null){
             throw new ViolationTypeAlreadyExistException(name);
         }
@@ -42,5 +42,11 @@ public class ViolationTypeServiceImp implements ViolationTypeService {
     public ViolationType findViolationTypeById(Integer id) {
         return violationTypeRepository.findById(id)
                 .orElseThrow(() -> new ViolationTypeNotFoundException(id));
+    }
+
+    @Override
+    public ViolationType findViolationTypeByName(String name) {
+        return violationTypeRepository.findByName(name)
+                .orElseThrow(() -> new ViolationTypeByNameNotFoundException(name));
     }
 }

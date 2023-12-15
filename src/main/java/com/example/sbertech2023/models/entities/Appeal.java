@@ -91,17 +91,11 @@ public class Appeal {
     @JoinColumn(name = "district")
     private District district;
 
-    public Appeal(String title, String text, AppealStatus status, String photo) {
+    public Appeal(String title, String text) {
         this.title = title;
         this.text = text;
-        this.status = status;
-        this.photo = photo;
-    }
-
-    public Appeal(String title, String text, AppealStatus status) {
-        this.title = title;
-        this.text = text;
-        this.status = status;
+        status = AppealStatus.WAITING;
+        recordState = RecordState.ACTIVE;
     }
 
     @Override

@@ -12,4 +12,5 @@ import java.util.Optional;
 public interface MicroDistrictRepository extends JpaRepository<MicroDistrict, Integer> {
     Optional<MicroDistrict> findByName(String name);
     List<MicroDistrict> findAllByDistrict(District district);
+    List<MicroDistrict> findAllByDistrictNotNull();
 }

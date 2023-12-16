@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Getter
 @Setter
 @Validated
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class SaveAppealRequestDto {
@@ -48,14 +49,8 @@ public class SaveAppealRequestDto {
     private ViolationTypeRequestDto violationType;
 
     /**
-     * Запрос DTO на работы с районом
-     */
-    @NotNull
-    private DistrictOrMicroDistrictRequestDto district;
-
-    /**
      * Запрос DTO на работы с микрорайоном
      */
     @NotNull
-    private DistrictOrMicroDistrictRequestDto microDistrict;
+    private String microDistrict;
 }

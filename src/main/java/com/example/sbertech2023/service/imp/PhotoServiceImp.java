@@ -29,11 +29,6 @@ public class PhotoServiceImp implements PhotoService {
         if (file.isEmpty()){
             throw new EmptyFileException();
         }
-
-        if (!file.getName().endsWith(".png")){
-            throw new WrongPhotoExtensionException();
-        }
-
         try (InputStream inputStream = file.getInputStream()){
             String filePath = DIRECTORY + "/" + userName + "_" + appeal + ".png";
             Path path = Path.of(filePath);

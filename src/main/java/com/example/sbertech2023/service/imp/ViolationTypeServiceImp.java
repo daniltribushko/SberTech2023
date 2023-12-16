@@ -9,6 +9,8 @@ import com.example.sbertech2023.service.ViolationTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @author Tribushko Danil
  * @since 14.12.2023
@@ -48,5 +50,10 @@ public class ViolationTypeServiceImp implements ViolationTypeService {
     public ViolationType findViolationTypeByName(String name) {
         return violationTypeRepository.findByName(name)
                 .orElseThrow(() -> new ViolationTypeByNameNotFoundException(name));
+    }
+
+    @Override
+    public List<ViolationType> findAll() {
+        return violationTypeRepository.findAll();
     }
 }

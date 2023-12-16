@@ -154,6 +154,16 @@ public class DistrictAndMicroDistrictServiceImp implements DistrictAndMicroDistr
         return microDistrictRepository.findAll();
     }
 
+    @Override
+    public List<MicroDistrict> findAllMicroDistrictsWithDistricts() {
+        return microDistrictRepository.findAllByDistrictNotNull();
+    }
+
+    @Override
+    public List<District> findAllDistrictsWithMicroDistricts() {
+        return districtRepository.findAllByMicroDistrictsNotEmpty();
+    }
+
     /**
      * Получение всех микрорайонов по району
      *

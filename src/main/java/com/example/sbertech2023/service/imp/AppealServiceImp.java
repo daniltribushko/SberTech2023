@@ -1,5 +1,6 @@
 package com.example.sbertech2023.service.imp;
 
+import com.example.sbertech2023.exceptions.MicroDistrictIsNotInDistrictException;
 import com.example.sbertech2023.exceptions.PhotoNotSavedException;
 import com.example.sbertech2023.models.dto.request.SaveAppealRequestDto;
 import com.example.sbertech2023.models.entities.*;
@@ -44,26 +45,26 @@ public class AppealServiceImp implements AppealService {
 
     @Override
     public void saveAppeal(SaveAppealRequestDto request, String username) {
-        District district = districtAndMicroDistrictService
-                .findDistrictByName(request
-                        .getDistrict()
-                        .getName());
         MicroDistrict microDistrict = districtAndMicroDistrictService
                 .findMicroDistrictByName(request
-                        .getMicroDistrict()
-                        .getName());
+                        .getMicroDistrict());
+        District district = microDistrict.getDistrict();
+        if (district == null){
+            throw new MicroDistrictIsNotInDistrictException(microDistrict.getName());
+        }
         User user = userService.findUserByUserName(username);
         ViolationType violationType = violationTypeService.findViolationTypeByName(request
                 .getViolationType()
                 .getName()
         );
-        Appeal appeal = new Appeal(request.getTitle(), request.getText());
+        Appeal appeal = new Appeal(request.getTitle(), request.getText(), request.getAddress());
         district.addAppeal(appeal);
         microDistrict.addAppeal(appeal);
         user.addAppeal(appeal);
         violationType.addAppeal(appeal);
         MultipartFile file = request.getPhoto();
-        if (file != null){
+        //Если файл не пустой, то сохраняем в бд
+        if (!file.isEmpty()){
             appeal.setPhoto(photoService.savePhoto(username, request.getTitle(), file)
                     .orElseThrow(() -> new PhotoNotSavedException()));
         }

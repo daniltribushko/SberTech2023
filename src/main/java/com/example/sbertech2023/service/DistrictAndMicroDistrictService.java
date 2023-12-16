@@ -109,8 +109,19 @@ public interface DistrictAndMicroDistrictService {
 
     /**
      * Получение всех микрорайонов
+     * @throws 
      */
     List<MicroDistrict> findAllMicroDistricts();
+
+    /**
+     * Получение всех микрорайонов, которые включены в район
+     */
+    List<MicroDistrict> findAllMicroDistrictsWithDistricts();
+
+    /**
+     * Получение всех районов, в которых есть микрорайоны
+     */
+    List<District> findAllDistrictsWithMicroDistricts();
 
     /**
      * Получение всех микрорацонов по району

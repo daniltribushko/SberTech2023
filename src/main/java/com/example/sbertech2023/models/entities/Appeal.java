@@ -91,9 +91,10 @@ public class Appeal {
     @JoinColumn(name = "district")
     private District district;
 
-    public Appeal(String title, String text) {
+    public Appeal(String title, String text, String address) {
         this.title = title;
         this.text = text;
+        this.address = address;
         status = AppealStatus.WAITING;
         recordState = RecordState.ACTIVE;
     }

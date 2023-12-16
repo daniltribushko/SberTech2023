@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import org.springframework.validation.annotation.Validated;
 
-import java.util.Optional;
+import java.util.List;
 
 /**
  * @author Tribushko Danil
@@ -45,4 +45,11 @@ public interface ViolationTypeService {
      * @return тип нарушения
      */
     ViolationType findViolationTypeByName(@NotBlank String name);
+
+    /**
+     * Получение всех типов нарушений
+     *
+     * @return список типов нарушений
+     */
+    List<ViolationType> findAll();
 }

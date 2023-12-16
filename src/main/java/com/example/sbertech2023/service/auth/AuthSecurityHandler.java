@@ -29,7 +29,7 @@ public class AuthSecurityHandler implements AuthenticationSuccessHandler {
         if (isAdmin){
             response.sendRedirect("admin");
         } else {
-            response.sendRedirect("");
+            response.sendRedirect("users");
         }
     }
 }

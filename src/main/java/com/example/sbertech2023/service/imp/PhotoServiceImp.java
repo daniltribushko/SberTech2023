@@ -1,7 +1,6 @@
 package com.example.sbertech2023.service.imp;
 
 import com.example.sbertech2023.exceptions.EmptyFileException;
-import com.example.sbertech2023.exceptions.WrongPhotoExtensionException;
 import com.example.sbertech2023.service.PhotoService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;

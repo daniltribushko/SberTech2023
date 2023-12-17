@@ -7,26 +7,66 @@
 </head>
 <body>
 <header>
-    <h1 th:text="${username}"/>
+    <h1 th:text="${user.sureName + ' ' + user.name}"/>
 </header>
 <main>
-<form class="add-appeal-form" method="post" action="/users/add/appeal" th:object="${saveAppealRequest}"
-      autocomplete="off" enctype="multipart/form-data">
-    <input type="hidden" th:name="${_csrf.getParameterName()}" th:value="${_csrf.getToken()}"/>
-    <input type="text" th:field="*{title}" placeholder="Введите заголовок" required/>
-    <textarea th:field="*{text}" placeholder="Введите текст обращения" required></textarea>
-    <input type="text" th:field="*{address}" placeholder="Введите адресс" required/>
-    <input type="file" th:field="*{photo}" placeholder="Загрузите фото"/>
-    <select th:field="*{violationType}">
-        <option th:each="v:${violationTypes}" th:value="${v.getName()}" th:text="${v.getName()}"/>
-    </select>
-    <select th:field="*{microDistrict}">
-        <optgroup th:each="d:${districts}" th:label="${d.getName()}" >
-            <option th:each="md:${d.getMicroDistricts()}" th:text="${md.getName()}" th:value="${md.getName()}"/>
-        </optgroup>
-    </select>
-    <input type="submit" value="Сохранить">
-</form>
+    <form class="add-appeal-form" method="post" action="/users/add/appeal" th:object="${saveAppealRequest}"
+          autocomplete="off" enctype="multipart/form-data">
+        <input type="hidden" th:name="${_csrf.getParameterName()}" th:value="${_csrf.getToken()}"/>
+        <input type="text" th:field="*{title}" placeholder="Введите заголовок" required/>
+        <textarea th:field="*{text}" placeholder="Введите текст обращения" required></textarea>
+        <input type="text" th:field="*{address}" placeholder="Введите адресс" required/>
+        <input type="file" th:field="*{photo}" placeholder="Загрузите фото"/>
+        <select th:field="*{violationType}">
+            <option th:each="v:${violationTypes}" th:value="${v.getName()}" th:text="${v.getName()}"/>
+        </select>
+        <select th:field="*{microDistrict}">
+            <optgroup th:each="d:${districts}" th:label="${d.getName()}">
+                <option th:each="md:${d.getMicroDistricts()}" th:text="${md.getName()}" th:value="${md.getName()}"/>
+            </optgroup>
+        </select>
+        <input type="submit" value="Сохранить">
+    </form>
+    <table>
+        <tr>
+           <td>
+               Заголовок обращения
+           </td>
+            <td>
+                Статус обращения
+            </td>
+            <td>
+                Тип нарушения
+            </td>
+            <td>
+                Изображение, на котором зафиксировано нарушение
+            </td>
+            <td>
+                Район
+            </td>
+            <td>
+                Микрорайон
+            </td>
+            <td>
+                Адрес
+            </td>
+            <td>
+                Текст обращения
+            </td>
+        </tr>
+        <tr class="appeal" th:each="appeal:${user.appeals}">
+            <td th:text="${appeal.title}"/>
+            <td th:text="${appeal.getStatus()}"/>
+            <td th:text="${appeal.getType().getName()}"/>
+            <td>
+                <img th:src="${appeal.getPhoto() != null} ? ${appeal.getPhoto()}"/>
+            </td>
+            <td th:text="${appeal.getDistrict().getName()}"/>
+            <td th:text="${appeal.getMicroDistrict().getName()}"/>
+            <td th:text="${appeal.address}"/>
+            <td th:text="${appeal.text}"/>
+        </tr>
+    </table>
 </main>
 </body>
 </html>

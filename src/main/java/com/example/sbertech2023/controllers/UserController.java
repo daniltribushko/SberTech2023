@@ -40,6 +40,7 @@ public class UserController {
 
     @GetMapping("")
     public String viewMainPage(Model model, Principal principal) {
+        model.addAttribute("user", userService.findUserByUserName(principal.getName()));
         model.addAttribute("username", principal.getName());
         model.addAttribute("violationTypes", violationTypeService.findAll());
         model.addAttribute("districts",

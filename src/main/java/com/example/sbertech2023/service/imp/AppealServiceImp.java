@@ -1,9 +1,9 @@
 package com.example.sbertech2023.service.imp;
 
-import com.example.sbertech2023.exceptions.MicroDistrictIsNotInDistrictException;
-import com.example.sbertech2023.exceptions.PhotoNotSavedException;
+import com.example.sbertech2023.exceptions.*;
 import com.example.sbertech2023.models.dto.request.SaveAppealRequestDto;
 import com.example.sbertech2023.models.entities.*;
+import com.example.sbertech2023.models.enums.AppealStatus;
 import com.example.sbertech2023.repositories.AppealRepository;
 import com.example.sbertech2023.service.AppealService;
 import com.example.sbertech2023.service.DistrictAndMicroDistrictService;
@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Optional;
+import java.util.List;
 
 /**
  * @author Tribushko Danil
@@ -63,7 +63,7 @@ public class AppealServiceImp implements AppealService {
         user.addAppeal(appeal);
         violationType.addAppeal(appeal);
         MultipartFile file = request.getPhoto();
-        //Если файл не пустой, то сохраняем в бд
+        //Если файл не пустой, то сохраняем его
         if (!file.isEmpty()){
             appeal.setPhoto(photoService.savePhoto(username, request.getTitle(), file)
                     .orElseThrow(() -> new PhotoNotSavedException()));
@@ -72,7 +72,50 @@ public class AppealServiceImp implements AppealService {
     }
 
     @Override
-    public Optional<Appeal> findAppealByTitle(String title) {
-        return appealRepository.findByTitle(title);
+    public Appeal findAppealByTitle(String title) {
+        return appealRepository.findByTitle(title)
+                .orElseThrow(() -> new AppealByNameNotFoundException(title));
+    }
+
+    @Override
+    public Appeal findAppealById(Long id) {
+        return appealRepository.findById(id)
+                .orElseThrow(() -> new AppealByIdNotFoundException(id));
+    }
+
+    @Override
+    public void acceptAppeal(Long id, String userName) {
+        Appeal appeal = findAppealById(id);
+        isAdminAndDontWorkWithHisAppeal(userName, appeal);
+        appeal.setStatus(AppealStatus.ACCEPTED);
+        appealRepository.save(appeal);
+    }
+
+    @Override
+    public void rejectedAppeal(Long id, String userName) {
+        Appeal appeal = findAppealById(id);
+        isAdminAndDontWorkWithHisAppeal(userName, appeal);
+        appeal.setStatus(AppealStatus.REJECTED);
+        appealRepository.save(appeal);
+    }
+
+    @Override
+    public List<Appeal> findAppealsByStatus(AppealStatus appealStatus) {
+        return appealRepository.findAllByStatus(appealStatus);
+    }
+
+    /**
+     * Проверка, является ли пользователь администратором и не работает со своим обращением
+     * @param userName имя пользователя
+     * @param appeal сущность обращения
+     */
+    private void isAdminAndDontWorkWithHisAppeal(String userName, Appeal appeal){
+        User user = userService.findUserByUserName(userName);
+        if (!userService.isAdmin(user)){
+            throw new UserNotAdminException(userName);
+        }
+        if (user.getId().equals(appeal.getAuthor().getId())){
+            throw new AdminChangeStatusHisAppealException();
+        }
     }
 }

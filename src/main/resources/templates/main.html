@@ -56,7 +56,7 @@
         </tr>
         <tr class="appeal" th:each="appeal:${user.appeals}">
             <td th:text="${appeal.title}"/>
-            <td th:text="${appeal.getStatus()}"/>
+            <td th:text="${appeal.getStatus().getRuName()}"/>
             <td th:text="${appeal.getType().getName()}"/>
             <td>
                 <img th:src="${appeal.getPhoto() != null} ? ${appeal.getPhoto()}"/>

@@ -1,5 +1,7 @@
 package com.example.sbertech2023.models.enums;
 
+import lombok.Getter;
+
 import java.util.Optional;
 
 /**
@@ -8,21 +10,27 @@ import java.util.Optional;
  *
  * Статус обращения
  */
+@Getter
 public enum AppealStatus {
     /**
      * Ожидает ответа от администратора
      */
-    WAITING,
+    WAITING("Ожидает"),
 
     /**
      * Принято администратором
      */
-    ACCEPTED,
+    ACCEPTED("Принято"),
 
     /**
      * Отклонено администратором
      */
-    REJECTED;
+    REJECTED("Отклонено");
+    private String ruName;
+
+    AppealStatus(String ruName){
+        this.ruName = ruName;
+    }
 
     /**
      * Получение статуса обращения из строки

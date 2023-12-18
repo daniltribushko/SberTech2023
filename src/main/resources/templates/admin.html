@@ -98,6 +98,60 @@
             </td>
         </tr>
     </table>
+    <table class="appeals">
+        <tr>
+            <td>
+                Автор
+            </td>
+            <td>
+                Заголовок обращения
+            </td>
+            <td>
+                Статус обращения
+            </td>
+            <td>
+                Тип нарушения
+            </td>
+            <td>
+                Изображение, на котором зафиксировано нарушение
+            </td>
+            <td>
+                Район
+            </td>
+            <td>
+                Микрорайон
+            </td>
+            <td>
+                Адрес
+            </td>
+            <td>
+                Текст обращения
+            </td>
+        </tr>
+        <tr class="appeal" th:each="appeal:${appeals}">
+            <td th:text="${appeal.getAuthor().name}"/>
+            <td th:text="${appeal.title}"/>
+            <td th:text="${appeal.getStatus().getRuName()}"/>
+            <td th:text="${appeal.getType().getName()}"/>
+            <td>
+                <img th:src="${appeal.getPhoto() != null} ? ${appeal.getPhoto()}"/>
+            </td>
+            <td th:text="${appeal.getDistrict().getName()}"/>
+            <td th:text="${appeal.getMicroDistrict().getName()}"/>
+            <td th:text="${appeal.address}"/>
+            <td th:text="${appeal.text}"/>
+            <td>
+                <form th:action="@{'/admin/appeals/' + ${appeal.getId()} + '/accept'}" method="post">
+                    <input type="hidden" th:name="${_csrf.getParameterName()}" th:value="${_csrf.getToken()}"/>
+                    <input type="submit" value="Принять">
+                </form>
+                <form th:action="@{'/admin/appeals/' + ${appeal.getId()} + '/accept'}" method="post">
+                    <input type="hidden" th:name="${_csrf.getParameterName()}" th:value="${_csrf.getToken()}"/>
+                    <input type="submit" value="Отклонить">
+                </form>
+            </td>
+        </tr>
+    </table>
 </main>
 </body>
 </html>

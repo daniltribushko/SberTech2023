@@ -1,8 +1,9 @@
 package com.example.sbertech2023.service.auth;
 
-import com.example.sbertech2023.exceptions.UserAlreadyExistException;
-import com.example.sbertech2023.exceptions.UserByUserNameNotFoundException;
-import com.example.sbertech2023.exceptions.WrongRoleException;
+import com.example.sbertech2023.exceptions.users.UserAlreadyExistException;
+import com.example.sbertech2023.exceptions.users.UserByIdNotFoundException;
+import com.example.sbertech2023.exceptions.users.UserByUserNameNotFoundException;
+import com.example.sbertech2023.exceptions.users.WrongRoleException;
 import com.example.sbertech2023.models.dto.request.SaveUserRequestDto;
 import com.example.sbertech2023.models.entities.User;
 import com.example.sbertech2023.models.enums.RecordState;
@@ -25,12 +26,12 @@ import java.util.Set;
  * Сервис для работы с пользователями
  */
 @Service
-public class UserService implements UserDetailsService {
+public class AuthUserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(
+    public AuthUserService(
             UserRepository userRepository,
             BCryptPasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
@@ -40,6 +41,11 @@ public class UserService implements UserDetailsService {
     public User findUserByUserName(String userName){
         return userRepository.findByLogin(userName)
                 .orElseThrow(() -> new UserByUserNameNotFoundException(userName));
+    }
+
+    public User findUserById(Long id){
+        return userRepository.findById(id)
+                .orElseThrow(() -> new UserByIdNotFoundException(id));
     }
 
     /**

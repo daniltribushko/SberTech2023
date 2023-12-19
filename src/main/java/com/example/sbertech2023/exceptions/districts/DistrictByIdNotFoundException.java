@@ -1,4 +1,6 @@
-package com.example.sbertech2023.exceptions;
+package com.example.sbertech2023.exceptions.districts;
+
+import com.example.sbertech2023.exceptions.GlobalAppException;
 
 /**
  * @author Tribushko Danil
@@ -6,7 +8,7 @@ package com.example.sbertech2023.exceptions;
  *
  * Исключение: Район с указанным id не найден
  */
-public class DistrictByIdNotFoundException extends GlobalAppException{
+public class DistrictByIdNotFoundException extends GlobalAppException {
     public DistrictByIdNotFoundException(Integer id) {
         super(404, "District with " + id + " id not found");
     }

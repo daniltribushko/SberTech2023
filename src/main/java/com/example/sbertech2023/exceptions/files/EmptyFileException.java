@@ -1,4 +1,6 @@
-package com.example.sbertech2023.exceptions;
+package com.example.sbertech2023.exceptions.files;
+
+import com.example.sbertech2023.exceptions.GlobalAppException;
 
 /**
  * @author Tribushko Danil
@@ -6,7 +8,7 @@ package com.example.sbertech2023.exceptions;
  *
  * Искоючение: Пустой файл
  */
-public class EmptyFileException extends GlobalAppException{
+public class EmptyFileException extends GlobalAppException {
     public EmptyFileException() {
         super(400, "file is empty");
     }

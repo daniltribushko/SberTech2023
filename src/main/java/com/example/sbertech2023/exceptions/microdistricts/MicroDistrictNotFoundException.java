@@ -1,4 +1,6 @@
-package com.example.sbertech2023.exceptions;
+package com.example.sbertech2023.exceptions.microdistricts;
+
+import com.example.sbertech2023.exceptions.GlobalAppException;
 
 /**
  * @author Tribushko Danil
@@ -6,7 +8,7 @@ package com.example.sbertech2023.exceptions;
  *
  * Исключение: Микрорайон не найден
  */
-public class MicroDistrictNotFoundException extends GlobalAppException{
+public class MicroDistrictNotFoundException extends GlobalAppException {
     public MicroDistrictNotFoundException(String name) {
         super(404, "MicroDistrict " + name + " not found");
     }

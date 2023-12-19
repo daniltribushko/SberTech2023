@@ -1,4 +1,6 @@
-package com.example.sbertech2023.exceptions;
+package com.example.sbertech2023.exceptions.violationtypes;
+
+import com.example.sbertech2023.exceptions.GlobalAppException;
 
 /**
  * @author Tribushko Danil
@@ -6,7 +8,7 @@ package com.example.sbertech2023.exceptions;
  *
  * Исключение: Тип нарушения не найден
  */
-public class ViolationTypeNotFoundException extends GlobalAppException{
+public class ViolationTypeNotFoundException extends GlobalAppException {
     public ViolationTypeNotFoundException(Integer id) {
         super(404, "Violation type with " + id + " id not found");
     }

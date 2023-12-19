@@ -1,6 +1,11 @@
 package com.example.sbertech2023.service.imp;
 
-import com.example.sbertech2023.exceptions.*;
+import com.example.sbertech2023.exceptions.appeals.AppealByIdNotFoundException;
+import com.example.sbertech2023.exceptions.appeals.AppealByNameNotFoundException;
+import com.example.sbertech2023.exceptions.files.PhotoNotSavedException;
+import com.example.sbertech2023.exceptions.microdistricts.MicroDistrictIsNotInDistrictException;
+import com.example.sbertech2023.exceptions.users.AdminChangeStatusHisAppealException;
+import com.example.sbertech2023.exceptions.users.UserNotAdminException;
 import com.example.sbertech2023.models.dto.request.SaveAppealRequestDto;
 import com.example.sbertech2023.models.entities.*;
 import com.example.sbertech2023.models.enums.AppealStatus;
@@ -9,7 +14,7 @@ import com.example.sbertech2023.service.AppealService;
 import com.example.sbertech2023.service.DistrictAndMicroDistrictService;
 import com.example.sbertech2023.service.PhotoService;
 import com.example.sbertech2023.service.ViolationTypeService;
-import com.example.sbertech2023.service.auth.UserService;
+import com.example.sbertech2023.service.auth.AuthUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,19 +33,19 @@ public class AppealServiceImp implements AppealService {
     private final ViolationTypeService violationTypeService;
     private final DistrictAndMicroDistrictService districtAndMicroDistrictService;
     private final PhotoService photoService;
-    private final UserService userService;
+    private final AuthUserService authUserService;
     @Autowired
     public AppealServiceImp(
             AppealRepository appealRepository,
             ViolationTypeService violationTypeService,
             DistrictAndMicroDistrictService districtAndMicroDistrictService,
             PhotoService photoService,
-            UserService userService) {
+            AuthUserService authUserService) {
         this.appealRepository = appealRepository;
         this.violationTypeService = violationTypeService;
         this.districtAndMicroDistrictService = districtAndMicroDistrictService;
         this.photoService = photoService;
-        this.userService = userService;
+        this.authUserService = authUserService;
     }
 
     @Override
@@ -52,7 +57,7 @@ public class AppealServiceImp implements AppealService {
         if (district == null){
             throw new MicroDistrictIsNotInDistrictException(microDistrict.getName());
         }
-        User user = userService.findUserByUserName(username);
+        User user = authUserService.findUserByUserName(username);
         ViolationType violationType = violationTypeService.findViolationTypeByName(request
                 .getViolationType()
                 .getName()
@@ -110,8 +115,8 @@ public class AppealServiceImp implements AppealService {
      * @param appeal сущность обращения
      */
     private void isAdminAndDontWorkWithHisAppeal(String userName, Appeal appeal){
-        User user = userService.findUserByUserName(userName);
-        if (!userService.isAdmin(user)){
+        User user = authUserService.findUserByUserName(userName);
+        if (!authUserService.isAdmin(user)){
             throw new UserNotAdminException(userName);
         }
         if (user.getId().equals(appeal.getAuthor().getId())){

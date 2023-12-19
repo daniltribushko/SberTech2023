@@ -4,7 +4,7 @@ import com.example.sbertech2023.models.dto.request.DistrictOrMicroDistrictReques
 import com.example.sbertech2023.models.enums.AppealStatus;
 import com.example.sbertech2023.service.AppealService;
 import com.example.sbertech2023.service.DistrictAndMicroDistrictService;
-import com.example.sbertech2023.service.auth.UserService;
+import com.example.sbertech2023.service.auth.AuthUserService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -27,16 +27,16 @@ import java.time.format.DateTimeFormatter;
 @RequestMapping("/admin")
 public class AdminController {
     private final DistrictAndMicroDistrictService districtAndMicroDistrictService;
-    private final UserService userService;
+    private final AuthUserService authUserService;
     private final AppealService appealService;
 
     @Autowired
     public AdminController(
             DistrictAndMicroDistrictService districtAndMicroDistrictService,
-            UserService userService,
+            AuthUserService authUserService,
             AppealService appealService){
         this.districtAndMicroDistrictService = districtAndMicroDistrictService;
-        this.userService = userService;
+        this.authUserService = authUserService;
         this.appealService = appealService;
     }
 
@@ -45,7 +45,7 @@ public class AdminController {
         model.addAttribute("districtOrMicroDistrictRequest",
                 new DistrictOrMicroDistrictRequestDto()
         );
-        model.addAttribute("username", userService.findUserByUserName(principal.getName()));
+        model.addAttribute("username", authUserService.findUserByUserName(principal.getName()));
         model.addAttribute("time", LocalDateTime.now()
                 .format(DateTimeFormatter.ofPattern("HH:mm - dd:MM:yyyy")));
         model.addAttribute("nulMicroDistricts",

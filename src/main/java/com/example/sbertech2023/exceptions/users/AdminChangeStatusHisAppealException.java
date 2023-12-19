@@ -1,4 +1,6 @@
-package com.example.sbertech2023.exceptions;
+package com.example.sbertech2023.exceptions.users;
+
+import com.example.sbertech2023.exceptions.GlobalAppException;
 
 /**
  * @author Tribushko Danil
@@ -6,7 +8,7 @@ package com.example.sbertech2023.exceptions;
  *
  * Исключение: Администратор пытается изменить статус своего обращения
  */
-public class AdminChangeStatusHisAppealException extends GlobalAppException{
+public class AdminChangeStatusHisAppealException extends GlobalAppException {
     public AdminChangeStatusHisAppealException() {
         super(409, "admin cannot change the status of his appeal");
     }

@@ -1,4 +1,6 @@
-package com.example.sbertech2023.exceptions;
+package com.example.sbertech2023.exceptions.users;
+
+import com.example.sbertech2023.exceptions.GlobalAppException;
 
 /**
  * @author Tribushko Danil
@@ -6,7 +8,7 @@ package com.example.sbertech2023.exceptions;
  *
  * Исключение: Пользователь не является администратором
  */
-public class UserNotAdminException extends GlobalAppException{
+public class UserNotAdminException extends GlobalAppException {
     public UserNotAdminException(String userName) {
         super(409, "User is not admin");
     }

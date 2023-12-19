@@ -1,4 +1,6 @@
-package com.example.sbertech2023.exceptions;
+package com.example.sbertech2023.exceptions.districts;
+
+import com.example.sbertech2023.exceptions.GlobalAppException;
 
 /**
  * @author Tribushko Danil
@@ -6,7 +8,7 @@ package com.example.sbertech2023.exceptions;
  *
  * Исключение: Район не найден
  */
-public class DistrictNotFoundException extends GlobalAppException{
+public class DistrictNotFoundException extends GlobalAppException {
     public DistrictNotFoundException(String name) {
         super(404, "District " + name + " not found");
     }

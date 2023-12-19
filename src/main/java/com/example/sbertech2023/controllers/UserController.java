@@ -4,7 +4,7 @@ import com.example.sbertech2023.models.dto.request.SaveAppealRequestDto;
 import com.example.sbertech2023.service.AppealService;
 import com.example.sbertech2023.service.DistrictAndMicroDistrictService;
 import com.example.sbertech2023.service.ViolationTypeService;
-import com.example.sbertech2023.service.auth.UserService;
+import com.example.sbertech2023.service.auth.AuthUserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,22 +25,22 @@ public class UserController {
     private final ViolationTypeService violationTypeService;
     private final AppealService appealService;
     private final DistrictAndMicroDistrictService districtAndMicroDistrictService;
-    private final UserService userService;
+    private final AuthUserService authUserService;
 
     @Autowired
     public UserController(ViolationTypeService violationTypeService,
                           AppealService appealService,
                           DistrictAndMicroDistrictService districtAndMicroDistrictService,
-                          UserService userService) {
+                          AuthUserService authUserService) {
         this.appealService = appealService;
         this.violationTypeService = violationTypeService;
         this.districtAndMicroDistrictService = districtAndMicroDistrictService;
-        this.userService = userService;
+        this.authUserService = authUserService;
     }
 
     @GetMapping("")
     public String viewMainPage(Model model, Principal principal) {
-        model.addAttribute("user", userService.findUserByUserName(principal.getName()));
+        model.addAttribute("user", authUserService.findUserByUserName(principal.getName()));
         model.addAttribute("username", principal.getName());
         model.addAttribute("violationTypes", violationTypeService.findAll());
         model.addAttribute("districts",

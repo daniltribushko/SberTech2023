@@ -1,8 +1,8 @@
 package com.example.sbertech2023.service.imp;
 
-import com.example.sbertech2023.exceptions.ViolationTypeAlreadyExistException;
-import com.example.sbertech2023.exceptions.ViolationTypeByNameNotFoundException;
-import com.example.sbertech2023.exceptions.ViolationTypeNotFoundException;
+import com.example.sbertech2023.exceptions.violationtypes.ViolationTypeAlreadyExistException;
+import com.example.sbertech2023.exceptions.violationtypes.ViolationTypeByNameNotFoundException;
+import com.example.sbertech2023.exceptions.violationtypes.ViolationTypeNotFoundException;
 import com.example.sbertech2023.models.entities.ViolationType;
 import com.example.sbertech2023.repositories.ViolationTypeRepository;
 import com.example.sbertech2023.service.ViolationTypeService;

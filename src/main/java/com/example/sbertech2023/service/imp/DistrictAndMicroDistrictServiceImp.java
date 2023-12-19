@@ -1,6 +1,10 @@
 package com.example.sbertech2023.service.imp;
 
-import com.example.sbertech2023.exceptions.*;
+import com.example.sbertech2023.exceptions.districts.DistrictAlreadyExistException;
+import com.example.sbertech2023.exceptions.districts.DistrictByIdNotFoundException;
+import com.example.sbertech2023.exceptions.districts.DistrictNotFoundException;
+import com.example.sbertech2023.exceptions.microdistricts.MicroDistrictAlreadyExistException;
+import com.example.sbertech2023.exceptions.microdistricts.MicroDistrictNotFoundException;
 import com.example.sbertech2023.models.dto.request.DistrictOrMicroDistrictRequestDto;
 import com.example.sbertech2023.models.entities.District;
 import com.example.sbertech2023.models.entities.MicroDistrict;

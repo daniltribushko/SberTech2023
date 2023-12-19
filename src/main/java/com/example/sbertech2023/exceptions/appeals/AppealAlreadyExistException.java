@@ -1,4 +1,6 @@
-package com.example.sbertech2023.exceptions;
+package com.example.sbertech2023.exceptions.appeals;
+
+import com.example.sbertech2023.exceptions.GlobalAppException;
 
 /**
  * @author Tribushko Danil
@@ -6,7 +8,7 @@ package com.example.sbertech2023.exceptions;
  *
  * Исключение: Обращение с указанным именем уже сохранено
  */
-public class AppealAlreadyExistException extends GlobalAppException{
+public class AppealAlreadyExistException extends GlobalAppException {
     public AppealAlreadyExistException(String name) {
         super(400, "Appeal " + name + " already exist");
     }

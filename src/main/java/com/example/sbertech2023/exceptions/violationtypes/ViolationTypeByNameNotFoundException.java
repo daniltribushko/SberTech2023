@@ -1,4 +1,6 @@
-package com.example.sbertech2023.exceptions;
+package com.example.sbertech2023.exceptions.violationtypes;
+
+import com.example.sbertech2023.exceptions.GlobalAppException;
 
 /**
  * @author Tribushko Danil
@@ -6,7 +8,7 @@ package com.example.sbertech2023.exceptions;
  *
  * Исключение: Тип нарушения с указанным именем не найден
  */
-public class ViolationTypeByNameNotFoundException extends GlobalAppException{
+public class ViolationTypeByNameNotFoundException extends GlobalAppException {
     public ViolationTypeByNameNotFoundException(String name) {
         super(404, "Violation type " + name + " not found");
     }

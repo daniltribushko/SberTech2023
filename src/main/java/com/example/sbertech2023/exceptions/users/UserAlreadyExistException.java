@@ -1,4 +1,6 @@
-package com.example.sbertech2023.exceptions;
+package com.example.sbertech2023.exceptions.users;
+
+import com.example.sbertech2023.exceptions.GlobalAppException;
 
 /**
  * @author Tribushko Danil
@@ -6,7 +8,7 @@ package com.example.sbertech2023.exceptions;
  *
  * Исключение: Пользователь уже сохранен
  */
-public class UserAlreadyExistException extends GlobalAppException{
+public class UserAlreadyExistException extends GlobalAppException {
     public UserAlreadyExistException(String userName) {
         super(409, "User " + userName + " already exist");
     }

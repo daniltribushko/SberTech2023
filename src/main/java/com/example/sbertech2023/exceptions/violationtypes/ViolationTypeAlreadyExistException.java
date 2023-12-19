@@ -1,4 +1,6 @@
-package com.example.sbertech2023.exceptions;
+package com.example.sbertech2023.exceptions.violationtypes;
+
+import com.example.sbertech2023.exceptions.GlobalAppException;
 
 /**
  * @author Tribushko Danil
@@ -6,7 +8,7 @@ package com.example.sbertech2023.exceptions;
  *
  * Исключение: Тип нарушения уже сохранен
  */
-public class ViolationTypeAlreadyExistException extends GlobalAppException{
+public class ViolationTypeAlreadyExistException extends GlobalAppException {
     public ViolationTypeAlreadyExistException(String name) {
         super(409, "Violation type " + name + " already exist");
     }

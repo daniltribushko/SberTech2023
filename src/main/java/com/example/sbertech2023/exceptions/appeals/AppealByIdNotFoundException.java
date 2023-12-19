@@ -1,4 +1,6 @@
-package com.example.sbertech2023.exceptions;
+package com.example.sbertech2023.exceptions.appeals;
+
+import com.example.sbertech2023.exceptions.GlobalAppException;
 
 /**
  * @author Tribushko Danil
@@ -6,7 +8,7 @@ package com.example.sbertech2023.exceptions;
  *
  * Исключение: Обращение с указанным id не найдено
  */
-public class AppealByIdNotFoundException extends GlobalAppException{
+public class AppealByIdNotFoundException extends GlobalAppException {
     public AppealByIdNotFoundException(Long id) {
         super(404, "Appeal with " + id + " id not found");
     }

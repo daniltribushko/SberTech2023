@@ -134,7 +134,7 @@
             <td th:text="${appeal.getStatus().getRuName()}"/>
             <td th:text="${appeal.getType().getName()}"/>
             <td>
-                <img th:src="${appeal.getPhoto() != null} ? ${appeal.getPhoto()}"/>
+                <img th:src="@{${appeal.getPhoto() != null ? appeal.getPhoto() : ''}}"/>
             </td>
             <td th:text="${appeal.getDistrict().getName()}"/>
             <td th:text="${appeal.getMicroDistrict().getName()}"/>

@@ -19,6 +19,8 @@ import java.util.List;
 /**
  * @author Tribushko Danil
  * @since 28.11.2023
+ *
+ * Реализация сервиса для работы с районами и микрорайонами
  */
 @Service
 public class DistrictAndMicroDistrictServiceImp implements DistrictAndMicroDistrictService {

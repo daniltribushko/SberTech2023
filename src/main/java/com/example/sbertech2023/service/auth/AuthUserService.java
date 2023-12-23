@@ -38,16 +38,6 @@ public class AuthUserService implements UserDetailsService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public User findUserByUserName(String userName){
-        return userRepository.findByLogin(userName)
-                .orElseThrow(() -> new UserByUserNameNotFoundException(userName));
-    }
-
-    public User findUserById(Long id){
-        return userRepository.findById(id)
-                .orElseThrow(() -> new UserByIdNotFoundException(id));
-    }
-
     /**
      * Получение пользователя по логину
      *
@@ -88,16 +78,5 @@ public class AuthUserService implements UserDetailsService {
             user.setRoles(Set.of(role));
             userRepository.save(user);
         }
-    }
-
-    public boolean isAdmin(User user){
-        boolean result = false;
-        for (Role role : user.getRoles()){
-            if (role.equals(Role.ADMIN)){
-                result = true;
-                break;
-            }
-        }
-        return result;
     }
 }

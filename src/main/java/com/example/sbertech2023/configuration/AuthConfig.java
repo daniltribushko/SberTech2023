@@ -1,6 +1,5 @@
 package com.example.sbertech2023.configuration;
 
-import com.example.sbertech2023.models.enums.Role;
 import com.example.sbertech2023.service.auth.AuthSecurityHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -34,6 +33,7 @@ public class AuthConfig {
                                 "/logout").permitAll()
                         .requestMatchers("/css/**").permitAll()
                         .requestMatchers("/js/**").permitAll()
+                        .requestMatchers("/files/**").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )

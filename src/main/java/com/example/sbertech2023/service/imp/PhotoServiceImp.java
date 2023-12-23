@@ -20,7 +20,7 @@ import java.util.Optional;
  */
 @Service
 public class PhotoServiceImp implements PhotoService {
-    private final static String DIRECTORY = "src/main/resources/files/photos/appeal";
+    private final static String DIRECTORY = "src/main/resources/static/files/photos/appeal";
 
     @Override
     public Optional<String> savePhoto(String userName, String appeal, MultipartFile file) {
@@ -32,7 +32,7 @@ public class PhotoServiceImp implements PhotoService {
             String filePath = DIRECTORY + "/" + userName + "_" + appeal + ".png";
             Path path = Path.of(filePath);
             Files.copy(inputStream, path, StandardCopyOption.REPLACE_EXISTING);
-            result = filePath;
+            result = filePath.split("static/")[1];
         } catch (IOException e){
             System.out.println(e.getMessage());
         }

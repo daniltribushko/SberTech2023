@@ -9,13 +9,13 @@ import com.example.sbertech2023.exceptions.users.UserNotAdminException;
 import com.example.sbertech2023.models.dto.request.SaveAppealRequestDto;
 import com.example.sbertech2023.models.entities.*;
 import com.example.sbertech2023.models.enums.AppealStatus;
+import com.example.sbertech2023.repositories.AppealPageRepository;
 import com.example.sbertech2023.repositories.AppealRepository;
-import com.example.sbertech2023.service.AppealService;
-import com.example.sbertech2023.service.DistrictAndMicroDistrictService;
-import com.example.sbertech2023.service.PhotoService;
-import com.example.sbertech2023.service.ViolationTypeService;
+import com.example.sbertech2023.service.*;
 import com.example.sbertech2023.service.auth.AuthUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -32,20 +32,23 @@ public class AppealServiceImp implements AppealService {
     private final AppealRepository appealRepository;
     private final ViolationTypeService violationTypeService;
     private final DistrictAndMicroDistrictService districtAndMicroDistrictService;
+    private final AppealPageRepository appealPageRepository;
     private final PhotoService photoService;
-    private final AuthUserService authUserService;
+    private final UserService userService;
     @Autowired
     public AppealServiceImp(
             AppealRepository appealRepository,
             ViolationTypeService violationTypeService,
             DistrictAndMicroDistrictService districtAndMicroDistrictService,
             PhotoService photoService,
-            AuthUserService authUserService) {
+            UserService userService,
+            AppealPageRepository appealPageRepository) {
         this.appealRepository = appealRepository;
         this.violationTypeService = violationTypeService;
         this.districtAndMicroDistrictService = districtAndMicroDistrictService;
         this.photoService = photoService;
-        this.authUserService = authUserService;
+        this.userService = userService;
+        this.appealPageRepository = appealPageRepository;
     }
 
     @Override
@@ -57,7 +60,7 @@ public class AppealServiceImp implements AppealService {
         if (district == null){
             throw new MicroDistrictIsNotInDistrictException(microDistrict.getName());
         }
-        User user = authUserService.findUserByUserName(username);
+        User user = userService.findByUserName(username);
         ViolationType violationType = violationTypeService.findViolationTypeByName(request
                 .getViolationType()
                 .getName()
@@ -109,14 +112,19 @@ public class AppealServiceImp implements AppealService {
         return appealRepository.findAllByStatus(appealStatus);
     }
 
+    @Override
+    public Page<Appeal> findAppealsByAuthorAndPage(User user, Pageable pageable) {
+        return appealPageRepository.findAllByAuthor(user, pageable);
+    }
+
     /**
      * Проверка, является ли пользователь администратором и не работает со своим обращением
      * @param userName имя пользователя
      * @param appeal сущность обращения
      */
     private void isAdminAndDontWorkWithHisAppeal(String userName, Appeal appeal){
-        User user = authUserService.findUserByUserName(userName);
-        if (!authUserService.isAdmin(user)){
+        User user = userService.findByUserName(userName);
+        if (!userService.isAdmin(user)){
             throw new UserNotAdminException(userName);
         }
         if (user.getId().equals(appeal.getAuthor().getId())){

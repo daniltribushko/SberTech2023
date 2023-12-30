@@ -6,19 +6,22 @@ import com.example.sbertech2023.exceptions.files.PhotoNotSavedException;
 import com.example.sbertech2023.exceptions.microdistricts.MicroDistrictIsNotInDistrictException;
 import com.example.sbertech2023.exceptions.users.AdminChangeStatusHisAppealException;
 import com.example.sbertech2023.exceptions.users.UserNotAdminException;
+import com.example.sbertech2023.exceptions.users.UserNotAppealsAuthor;
 import com.example.sbertech2023.models.dto.request.SaveAppealRequestDto;
 import com.example.sbertech2023.models.entities.*;
 import com.example.sbertech2023.models.enums.AppealStatus;
 import com.example.sbertech2023.repositories.AppealPageRepository;
 import com.example.sbertech2023.repositories.AppealRepository;
 import com.example.sbertech2023.service.*;
-import com.example.sbertech2023.service.auth.AuthUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 
 /**
@@ -115,6 +118,23 @@ public class AppealServiceImp implements AppealService {
     @Override
     public Page<Appeal> findAppealsByAuthorAndPage(User user, Pageable pageable) {
         return appealPageRepository.findAllByAuthor(user, pageable);
+    }
+
+    @Override
+    public Page<Appeal> findAppealsByPage(Pageable pageable) {
+        return appealRepository.findAll(pageable);
+    }
+
+    @Override
+    public void deleteAppeal(Long id, String userName) throws IOException {
+        Appeal appeal = findAppealById(id);
+        User user = userService.findByUserName(userName);
+        if (userService.isAdmin(user) || appeal.getAuthor().getId().equals(user.getId())){
+            Files.deleteIfExists(Path.of("src/main/resources/static" + appeal.getPhoto()));
+            appealRepository.delete(appeal);
+        } else {
+            throw new UserNotAppealsAuthor(userName);
+        }
     }
 
     /**

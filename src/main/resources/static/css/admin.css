@@ -3,7 +3,7 @@
     margin: 0;
 }
 
-h1, time {
+header h1, header time {
     position: relative;
     color: #ffffff;
 }
@@ -25,7 +25,10 @@ table.districts td {
     width: 50vw;
 }
 
-
+img {
+    width: 4vw;
+    height: 2vh;
+}
 
 table.districts {
     position: relative;

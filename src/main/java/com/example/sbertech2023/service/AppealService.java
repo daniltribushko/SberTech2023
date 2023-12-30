@@ -6,15 +6,14 @@ import com.example.sbertech2023.models.entities.User;
 import com.example.sbertech2023.models.enums.AppealStatus;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
+import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * @author Tribushko Danil
@@ -80,4 +79,19 @@ public interface AppealService {
      * @return
      */
     Page<Appeal> findAppealsByAuthorAndPage(User user, Pageable pageable);
+
+    /**
+     * Поиск обращение  с пагинацией
+     *
+     * @param pageable страница для пагинации
+     * @return список обращений с пагинацией
+     */
+    Page<Appeal> findAppealsByPage(Pageable pageable);
+
+    /**
+     * Удаление обращения
+     * @param id идентификатор обращения
+     * @param userName имя пользователя
+     */
+    void deleteAppeal(@Min(value = 1, message = "Id can not be less than 1") Long id, String userName) throws IOException;
 }

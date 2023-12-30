@@ -32,7 +32,7 @@ public class PhotoServiceImp implements PhotoService {
             String filePath = DIRECTORY + "/" + userName + "_" + appeal + ".png";
             Path path = Path.of(filePath);
             Files.copy(inputStream, path, StandardCopyOption.REPLACE_EXISTING);
-            result = filePath.split("static/")[1];
+            result = filePath.split("static")[1];
         } catch (IOException e){
             System.out.println(e.getMessage());
         }

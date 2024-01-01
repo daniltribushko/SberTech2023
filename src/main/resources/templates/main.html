@@ -16,7 +16,7 @@
         <input type="text" th:field="*{title}" placeholder="Введите заголовок" required/>
         <textarea th:field="*{text}" placeholder="Введите текст обращения" required></textarea>
         <input type="text" th:field="*{address}" placeholder="Введите адресс" required/>
-        <input type="file" th:field="*{photo}" placeholder="Загрузите фото"/>
+        <input type="file" th:field="*{photo}" placeholder="Загрузите фото" accept="image/jpeg"/>
         <select th:field="*{violationType}">
             <option th:each="v:${violationTypes}" th:value="${v.getName()}" th:text="${v.getName()}"/>
         </select>

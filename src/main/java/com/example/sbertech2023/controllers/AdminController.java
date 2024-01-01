@@ -123,7 +123,7 @@ public class AdminController {
 
     @GetMapping("/reports")
     public ResponseEntity<Resource> getRepost(GetReportRequestDto request,
-                                              Principal principal) throws MalformedURLException {
+                                              Principal principal) throws  MalformedURLException {
         Resource resource = reportService.downloadReport(principal.getName(),
                 request.getUserId(),
                 request.getAppealId());

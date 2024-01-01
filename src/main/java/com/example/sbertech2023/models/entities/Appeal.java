@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 /**
@@ -63,6 +64,8 @@ public class Appeal {
     @Column(name = "recordState", nullable = false)
     private RecordState recordState;
 
+    @Column(name = "date_publish")
+    private LocalDateTime datePublish;
     /**
      * Автор обращения
      */
@@ -97,6 +100,7 @@ public class Appeal {
         this.address = address;
         status = AppealStatus.WAITING;
         recordState = RecordState.ACTIVE;
+        datePublish = LocalDateTime.now();
     }
 
     @Override

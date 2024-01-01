@@ -29,7 +29,7 @@ public class PhotoServiceImp implements PhotoService {
             throw new EmptyFileException();
         }
         try (InputStream inputStream = file.getInputStream()){
-            String filePath = DIRECTORY + "/" + userName + "_" + appeal + ".png";
+            String filePath = DIRECTORY + "/" + userName + "_" + appeal + ".jpeg";
             Path path = Path.of(filePath);
             Files.copy(inputStream, path, StandardCopyOption.REPLACE_EXISTING);
             result = filePath.split("static")[1];

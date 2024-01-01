@@ -108,13 +108,15 @@ public class AdminController {
     }
 
     @PostMapping("/appeals/{id}/accept")
-    public String acceptAppeal(@PathVariable Long id, Principal principal){
+    public String acceptAppeal(@Min(value = 1, message = "id can not be less than 1") @PathVariable Long id,
+                               Principal principal){
         appealService.acceptAppeal(id, principal.getName());
         return "redirect:/admin";
     }
 
     @PostMapping("/appeals/{id}/rejected")
-    public String rejectedAppeal(@PathVariable Long id, Principal principal){
+    public String rejectedAppeal(@Min(value = 1, message = "id can not be less than 1") @PathVariable Long id,
+                                 Principal principal){
         appealService.rejectedAppeal(id, principal.getName());
         return "redirect:/admin";
     }
@@ -131,8 +133,9 @@ public class AdminController {
                 .body(resource);
     }
 
-    @PostMapping("/appeals/{id}")
-    public String deleteAppeal(@PathVariable Long id, Principal principal) throws IOException {
+    @PostMapping("/appeals/{id}/delete")
+    public String deleteAppeal(@Min(value = 1, message = "id can not be less than 1") @PathVariable Long id,
+                               Principal principal) {
         appealService.deleteAppeal(id, principal.getName());
         return "redirect:/admin";
     }

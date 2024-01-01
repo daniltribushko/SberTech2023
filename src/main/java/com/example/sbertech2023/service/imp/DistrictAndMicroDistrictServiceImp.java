@@ -4,6 +4,7 @@ import com.example.sbertech2023.exceptions.districts.DistrictAlreadyExistExcepti
 import com.example.sbertech2023.exceptions.districts.DistrictByIdNotFoundException;
 import com.example.sbertech2023.exceptions.districts.DistrictNotFoundException;
 import com.example.sbertech2023.exceptions.microdistricts.MicroDistrictAlreadyExistException;
+import com.example.sbertech2023.exceptions.microdistricts.MicroDistrictByIdNotFoundException;
 import com.example.sbertech2023.exceptions.microdistricts.MicroDistrictNotFoundException;
 import com.example.sbertech2023.models.dto.request.DistrictOrMicroDistrictRequestDto;
 import com.example.sbertech2023.models.entities.District;
@@ -59,7 +60,7 @@ public class DistrictAndMicroDistrictServiceImp implements DistrictAndMicroDistr
     @Override
     public void saveMicroDistrict(DistrictOrMicroDistrictRequestDto request) {
         String name = request.getName();
-        MicroDistrict microDistrict = findMicroDistrictByName(name);
+        MicroDistrict microDistrict = microDistrictRepository.findByName(request.getName()).orElse(null);
         if (microDistrict != null){
             throw new MicroDistrictAlreadyExistException(name);
         } else {
@@ -137,7 +138,8 @@ public class DistrictAndMicroDistrictServiceImp implements DistrictAndMicroDistr
 
     @Override
     public MicroDistrict findMicroDistrictById(Integer id) {
-        return null;
+        return microDistrictRepository.findById(id)
+                .orElseThrow(() -> new MicroDistrictByIdNotFoundException(id));
     }
 
     /**

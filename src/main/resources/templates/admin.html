@@ -98,6 +98,7 @@
             </td>
         </tr>
     </table>
+    <!-- таблица обращений -->
     <table class="appeals">
         <tr>
             <td>
@@ -129,6 +130,7 @@
             </td>
         </tr>
         <h1>Обращения требующие рассмотрения</h1>
+        <!-- Обращения ожидающие проверки -->
         <tr class="appeal" th:each="appeal:${appeals}">
             <td th:text="${appeal.getAuthor().name}"/>
             <td th:text="${appeal.title}"/>
@@ -150,9 +152,13 @@
                     <input type="hidden" th:name="${_csrf.getParameterName()}" th:value="${_csrf.getToken()}"/>
                     <input type="submit" value="Отклонить">
                 </form>
+                <form th:action="@{'/admin/appeals/' + ${appeal.id} + '/delete'}" method="post">
+                    <input type="submit" value="Удалить">
+                </form>
             </td>
         </tr>
         <h1>Принятые обращения</h1>
+        <!-- Принятые обращения -->
         <tr class="accepted-appeals" th:each="appeal:${acceptedAppeals}">
             <td th:text="${appeal.getAuthor().name}"/>
             <td th:text="${appeal.title}"/>
@@ -170,6 +176,10 @@
                     <input type="hidden" name="userId" th:value="${appeal.getAuthor().getId()}"/>
                     <input type="hidden" name="appealId" th:value="${appeal.getId()}"/>
                     <input type="submit" value="Скачать">
+                </form>
+                <form th:action="@{'/admin/appeals/' + ${appeal.id} + '/delete'}" method="post">
+                    <input type="hidden" th:name="${_csrf.getParameterName()}" th:value="${_csrf.getToken()}">
+                    <input type="submit" value="Удалить">
                 </form>
             </td>
         </tr>

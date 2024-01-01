@@ -13,10 +13,12 @@ import com.example.sbertech2023.models.enums.AppealStatus;
 import com.example.sbertech2023.repositories.AppealPageRepository;
 import com.example.sbertech2023.repositories.AppealRepository;
 import com.example.sbertech2023.service.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -30,6 +32,7 @@ import java.util.List;
  * <p>
  * Реализация сервиса по работе с обращениями
  */
+@Slf4j
 @Service
 public class AppealServiceImp implements AppealService {
     private final AppealRepository appealRepository;
@@ -126,12 +129,17 @@ public class AppealServiceImp implements AppealService {
     }
 
     @Override
-    public void deleteAppeal(Long id, String userName) throws IOException {
+    @Transactional
+    public void deleteAppeal(Long id, String userName) {
         Appeal appeal = findAppealById(id);
         User user = userService.findByUserName(userName);
         if (userService.isAdmin(user) || appeal.getAuthor().getId().equals(user.getId())){
-            Files.deleteIfExists(Path.of("src/main/resources/static" + appeal.getPhoto()));
-            appealRepository.delete(appeal);
+            appealRepository.deleteById(appeal.getId());
+            try {
+                Files.deleteIfExists(Path.of("src/main/resources/static" + appeal.getPhoto()));
+            } catch (IOException e){
+                log.warn(e.getMessage());
+            }
         } else {
             throw new UserNotAppealsAuthor(userName);
         }

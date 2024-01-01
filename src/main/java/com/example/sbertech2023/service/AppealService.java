@@ -93,5 +93,5 @@ public interface AppealService {
      * @param id идентификатор обращения
      * @param userName имя пользователя
      */
-    void deleteAppeal(@Min(value = 1, message = "Id can not be less than 1") Long id, String userName) throws IOException;
+    void deleteAppeal(@Min(value = 1, message = "Id can not be less than 1") Long id, String userName);
 }

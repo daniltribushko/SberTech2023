@@ -77,7 +77,7 @@ public class ReportServiceImp implements ReportService {
 
 
     private Resource getResource(User user, Appeal appeal)  {
-        String fileName = "/static/files/reports/report_" + user.getLogin() + "_" + appeal.getTitle() + ".pdf";
+        String fileName = "static/files/reports/report_" + user.getLogin() + "_" + appeal.getTitle() + ".pdf";
         Resource resource = new ClassPathResource(fileName);
         if (resource.exists() || resource.isReadable()) {
             return resource;

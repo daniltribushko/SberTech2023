@@ -1,6 +1,7 @@
 package com.example.sbertech2023.service.imp;
 
 import com.example.sbertech2023.exceptions.users.UserNotAdminException;
+import com.example.sbertech2023.exceptions.users.UserNotAppealsAuthor;
 import com.example.sbertech2023.models.entities.Appeal;
 import com.example.sbertech2023.models.entities.User;
 import com.example.sbertech2023.service.AppealService;
@@ -59,6 +60,9 @@ public class ReportServiceImp implements ReportService {
         }
         User user = userService.findById(userId);
         Appeal appeal = appealService.findAppealById(appealId);
+        if (!appeal.getAuthor().getId().equals(user.getId())){
+            throw new UserNotAppealsAuthor(user.getLogin());
+        }
         return getResource(user, appeal);
     }
 
@@ -135,6 +139,10 @@ public class ReportServiceImp implements ReportService {
             addParagraphInDocument(report, new Chunk("ОБРАЩЕНИЕ №" + appeal.getId(), mainFontBold));
             addParagraphInDocument(report, new Chunk("Пользователь:   ", mainFontBold),
                     new Chunk(user.getSureName() + " " + user.getName(), mainFont));
+            addParagraphInDocument(report, new Chunk("Район: ", mainFontBold),
+                    new Chunk(appeal.getDistrict().getName(), mainFont));
+            addParagraphInDocument(report, new Chunk("Микрорайон: ", mainFontBold),
+                    new Chunk(appeal.getMicroDistrict().getName(), mainFont));
             addParagraphInDocument(report, new Chunk("Дата публикации: ", mainFontBold),
                     new Chunk(appeal.getDatePublish()
                             .format(DateTimeFormatter.ofPattern("HH:mm - dd/MM/yyyy")), mainFont));

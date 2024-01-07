@@ -6,7 +6,6 @@ import com.example.sbertech2023.exceptions.districts.DistrictNotFoundException;
 import com.example.sbertech2023.exceptions.microdistricts.MicroDistrictAlreadyExistException;
 import com.example.sbertech2023.exceptions.microdistricts.MicroDistrictByIdNotFoundException;
 import com.example.sbertech2023.exceptions.microdistricts.MicroDistrictNotFoundException;
-import com.example.sbertech2023.models.dto.request.DistrictOrMicroDistrictRequestDto;
 import com.example.sbertech2023.models.entities.District;
 import com.example.sbertech2023.models.entities.MicroDistrict;
 import com.example.sbertech2023.repositories.DistrictRepository;
@@ -39,28 +38,28 @@ public class DistrictAndMicroDistrictServiceImp implements DistrictAndMicroDistr
     /**
      * Сохранение района в бд
      *
-     * @param request запрос на работу с районом
+     * @param name имя района
      */
     @Override
-    public void saveDistrict(DistrictOrMicroDistrictRequestDto request) {
-        District district = districtRepository.findByName(request.getName())
+    public void saveDistrict(String name) {
+        District district = districtRepository.findByName(name)
                 .orElse(null);
         if (district != null){
-            throw new DistrictAlreadyExistException(request.getName());
+            throw new DistrictAlreadyExistException(name);
         } else {
-            districtRepository.save(new District(request.getName()));
+            districtRepository.save(new District(name));
         }
     }
 
     /**
      * Сохранение микрорайона в бд
      *
-     * @param request запрос на работу с микрорайоном
+     * @param name название микрорайона
      */
     @Override
-    public void saveMicroDistrict(DistrictOrMicroDistrictRequestDto request) {
-        String name = request.getName();
-        MicroDistrict microDistrict = microDistrictRepository.findByName(request.getName()).orElse(null);
+    public void saveMicroDistrict(String name) {
+        MicroDistrict microDistrict = microDistrictRepository.findByName(name)
+                .orElse(null);
         if (microDistrict != null){
             throw new MicroDistrictAlreadyExistException(name);
         } else {
@@ -94,12 +93,12 @@ public class DistrictAndMicroDistrictServiceImp implements DistrictAndMicroDistr
      * Добавление микрорайона в район
      *
      * @param id id района
-     * @param request запрос на работу с микрорайоном
+     * @param name имя микрорайона
      */
     @Override
-    public void addMicroDistrictInDistrict(Integer id, DistrictOrMicroDistrictRequestDto request) {
+    public void addMicroDistrictInDistrict(Integer id, String name) {
         District district = findDistrictById(id);
-        MicroDistrict microDistrict = findMicroDistrictByName(request.getName());
+        MicroDistrict microDistrict = findMicroDistrictByName(name);
         district.addMicroDistrict(microDistrict);
         districtRepository.save(district);
     }
@@ -175,14 +174,14 @@ public class DistrictAndMicroDistrictServiceImp implements DistrictAndMicroDistr
     /**
      * Получение всех микрорайонов по району
      *
-     * @param request запрос на работу с районами и микрорайонами
+     * @param name имя региона
      * @return список микрорайонов
      */
     @Override
-    public List<MicroDistrict> findAllMicroDistrictsByDistrict(DistrictOrMicroDistrictRequestDto request) {
+    public List<MicroDistrict> findAllMicroDistrictsByDistrict(String name) {
         List<MicroDistrict> microDistricts;
-        if (request != null){
-            District district = findDistrictByName(request.getName());
+        if (name != null){
+            District district = findDistrictByName(name);
             microDistricts = microDistrictRepository.findAllByDistrict(district);
         }else {
             microDistricts = microDistrictRepository.findAllByDistrict(null);

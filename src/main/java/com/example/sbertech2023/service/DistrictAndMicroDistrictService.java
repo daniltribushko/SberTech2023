@@ -1,15 +1,13 @@
 package com.example.sbertech2023.service;
 
-import com.example.sbertech2023.models.dto.request.DistrictOrMicroDistrictRequestDto;
 import com.example.sbertech2023.models.entities.District;
 import com.example.sbertech2023.models.entities.MicroDistrict;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * @author Tribushko Danil
@@ -23,16 +21,16 @@ public interface DistrictAndMicroDistrictService {
     /**
      * Сохранение района
      *
-     * @param request запрос на работу с районом
+     * @param name имя района
      */
-    void saveDistrict(@Valid DistrictOrMicroDistrictRequestDto request);
+    void saveDistrict(@NotBlank String name);
 
     /**
-     * Сохранение миерорайона
+     * Сохранение микрорайона
      *
-     * @param request запрос на работу с микрорайоном
+     * @param name имя микрорайона
      */
-    void saveMicroDistrict(@Valid DistrictOrMicroDistrictRequestDto request);
+    void saveMicroDistrict(@NotBlank String name);
 
     /**
      * Удаление района
@@ -52,11 +50,11 @@ public interface DistrictAndMicroDistrictService {
      * Сохранение микрорайона в район
      *
      * @param id      id района
-     * @param request запрос на работу с микрорайоном
+     * @param name имя микрорайона
      */
     void addMicroDistrictInDistrict(
             @Min(value = 1, message = "Id can not be less than 1") Integer id,
-            @Valid DistrictOrMicroDistrictRequestDto request);
+            @NotBlank String name);
 
     /**
      * Удаление микрорайона из рацона
@@ -74,7 +72,7 @@ public interface DistrictAndMicroDistrictService {
      * @param name название района
      * @return сущность района
      */
-    District findDistrictByName(String name);
+    District findDistrictByName(@NotBlank String name);
 
     /**
      * Получение микрорайона по названию
@@ -82,7 +80,7 @@ public interface DistrictAndMicroDistrictService {
      * @param name название микрорайона
      * @return сущность микрорайона
      */
-    MicroDistrict findMicroDistrictByName(String name);
+    MicroDistrict findMicroDistrictByName(@NotBlank String name);
 
     /**
      * Получение района по id
@@ -90,7 +88,7 @@ public interface DistrictAndMicroDistrictService {
      * @param id идентификатор района
      * @return сущность района
      */
-    District findDistrictById(Integer id);
+    District findDistrictById(@Min(value = 1, message = "Id can not be less than 1") Integer id);
 
     /**
      * Получение микрорайона по id
@@ -98,7 +96,7 @@ public interface DistrictAndMicroDistrictService {
      * @param id идентификатор микрорайона
      * @return сущность микрорайона
      */
-    MicroDistrict findMicroDistrictById(Integer id);
+    MicroDistrict findMicroDistrictById(@Min(value = 1, message = "Id can not be less than 1") Integer id);
 
     /**
      * Получение всех районов из бд
@@ -109,7 +107,6 @@ public interface DistrictAndMicroDistrictService {
 
     /**
      * Получение всех микрорайонов
-     * @throws 
      */
     List<MicroDistrict> findAllMicroDistricts();
 
@@ -126,5 +123,5 @@ public interface DistrictAndMicroDistrictService {
     /**
      * Получение всех микрорацонов по району
      */
-    List<MicroDistrict> findAllMicroDistrictsByDistrict(@Valid DistrictOrMicroDistrictRequestDto request);
+    List<MicroDistrict> findAllMicroDistrictsByDistrict(@NotBlank String name);
 }

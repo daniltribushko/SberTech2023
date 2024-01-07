@@ -1,6 +1,5 @@
 package com.example.sbertech2023.controllers;
 
-import com.example.sbertech2023.models.dto.request.DistrictOrMicroDistrictRequestDto;
 import com.example.sbertech2023.models.dto.request.GetReportRequestDto;
 import com.example.sbertech2023.models.enums.AppealStatus;
 import com.example.sbertech2023.service.AppealService;
@@ -18,7 +17,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.security.Principal;
 import java.time.LocalDateTime;
@@ -52,9 +50,6 @@ public class AdminController {
 
     @GetMapping("")
     public String viewAdminPage(Model model, Principal principal){
-        model.addAttribute("districtOrMicroDistrictRequest",
-                new DistrictOrMicroDistrictRequestDto()
-        );
         model.addAttribute("username", userService.findByUserName(principal.getName()));
         model.addAttribute("time", LocalDateTime.now()
                 .format(DateTimeFormatter.ofPattern("HH:mm - dd:MM:yyyy")));
@@ -68,14 +63,14 @@ public class AdminController {
     }
 
     @PostMapping("/districts/create")
-    public String createNewDistrict(@Valid DistrictOrMicroDistrictRequestDto request){
-        districtAndMicroDistrictService.saveDistrict(request);
+    public String createNewDistrict(@NotBlank @RequestParam String name){
+        districtAndMicroDistrictService.saveDistrict(name);
         return "redirect:/admin";
     }
 
     @PostMapping("/micro-districts/create")
-    public String createNewMicroDistrict(@Valid DistrictOrMicroDistrictRequestDto request){
-        districtAndMicroDistrictService.saveMicroDistrict(request);
+    public String createNewMicroDistrict(@NotBlank @RequestParam String name){
+        districtAndMicroDistrictService.saveMicroDistrict(name);
         return "redirect:/admin";
     }
 
@@ -94,8 +89,8 @@ public class AdminController {
     @PostMapping("/districts/{id}/add/micro-district")
     public String addMicroDistrictInDistrict(
             @Min(value = 1, message = "id can not be less than 1") @PathVariable Integer id,
-            @Valid DistrictOrMicroDistrictRequestDto request){
-        districtAndMicroDistrictService.addMicroDistrictInDistrict(id, request);
+            @NotBlank @RequestParam String name){
+        districtAndMicroDistrictService.addMicroDistrictInDistrict(id, name);
         return "redirect:/admin";
     }
 
@@ -122,7 +117,7 @@ public class AdminController {
     }
 
     @GetMapping("/reports")
-    public ResponseEntity<Resource> getRepost(GetReportRequestDto request,
+    public ResponseEntity<Resource> getRepost(@Valid GetReportRequestDto request,
                                               Principal principal) throws  MalformedURLException {
         Resource resource = reportService.downloadReport(principal.getName(),
                 request.getUserId(),

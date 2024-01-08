@@ -7,6 +7,7 @@ import lombok.*;
 import org.hibernate.annotations.Cascade;
 
 import java.util.Comparator;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -101,8 +102,15 @@ public class User {
         appeals.add(appeal);
     }
 
-    public void addEvent(Event event) {
+    public void addUserEvent(Event event) {
         event.setCreator(this);
         userEvents.add(event);
+    }
+
+    public void addEvent(Event event){
+        events.add(event);
+        List<User> participants = event.getParticipants();
+        participants.add(this);
+        event.setParticipants(participants);
     }
 }

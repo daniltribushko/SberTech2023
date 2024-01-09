@@ -47,4 +47,16 @@ public class UserServiceImp implements UserService {
         }
         return result;
     }
+
+    @Override
+    public boolean isOrganization(User user) {
+        boolean result = false;
+        for (Role role : user.getRoles()){
+            if (role.equals(Role.ORGANIZATION)){
+                result = true;
+                break;
+            }
+        }
+        return result;
+    }
 }

@@ -32,4 +32,12 @@ public interface UserService {
      * @return является ли пользователь администратором
      */
     boolean isAdmin(User user);
+
+    /**
+     * Проверка является ли пользователь организацией
+     *
+     * @param user сущность пользователя
+     * @return является ли пользователь организацией
+     */
+    boolean isOrganization(User user);
 }

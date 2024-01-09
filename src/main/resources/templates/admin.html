@@ -12,23 +12,20 @@
 </header>
 <main>
     <!-- Форма для добавления районов в бд-->
-    <form class="add-district" method="post" action="/admin/districts/create"
-          th:object="${districtOrMicroDistrictRequest}" autocomplete="off">
+    <form class="add-district" method="post" action="/admin/districts/create" autocomplete="off">
         <!-- csrf токен-->
         <input type="hidden" th:name="${_csrf.getParameterName()}" th:value="${_csrf.getToken()}"/>
         <!-- Поле для название района-->
-        <input id="district-name" th:field="*{name}" type="text"
+        <input id="district-name" name="name" type="text"
                placeholder="Введите название региона"/>
         <input type="submit" value="Сохранить"/>
     </form>
     <!-- Форма для добавления микрорайона в бд-->
-    <form class="add-microdistrict" method="post" action="/admin/micro-districts/create"
-          th:object="${districtOrMicroDistrictRequest}" autocomplete="off">
+    <form class="add-microdistrict" method="post" action="/admin/micro-districts/create" autocomplete="off">
         <!-- csrf токен-->
         <input type="hidden" th:name="${_csrf.getParameterName()}" th:value="${_csrf.getToken()}"/>
         <!-- Поле для названия микрорайона-->
-        <input id="microdistrict-name" type="text" th:field="*{name}"
-               placeholder="Введите название микрорегиона"/>
+        <input id="microdistrict-name" type="text" name="name" placeholder="Введите название микрорегиона"/>
         <input type="submit" value="Сохранить"/>
     </form>
     <!-- Таблица с микрорайонами без районов-->
@@ -71,12 +68,11 @@
             </td>
             <td>
                 <!-- Форма для добавления микрорайонов в район-->
-                <form method="post" th:action="@{'/admin/districts/' + ${district.id} + '/add/micro-district'}"
-                      th:object="${districtOrMicroDistrictRequest}">
+                <form method="post" th:action="@{'/admin/districts/' + ${district.id} + '/add/micro-district'}">
                     <!-- csrf токен-->
                     <input type="hidden" th:name="${_csrf.getParameterName()}" th:value="${_csrf.getToken()}"/>
                     <!-- Микрорайоны без районов -->
-                    <select th:field="*{name}">
+                    <select name="name">
                         <option th:each="md:${nulMicroDistricts}" th:value="${md.name}" th:text="${md.name}"/>
                     </select>
                     <input type="submit" value="Добавить">

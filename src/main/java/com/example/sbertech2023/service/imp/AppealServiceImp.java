@@ -69,7 +69,6 @@ public class AppealServiceImp implements AppealService {
         User user = userService.findByUserName(username);
         ViolationType violationType = violationTypeService.findViolationTypeByName(request
                 .getViolationType()
-                .getName()
         );
         Appeal appeal = new Appeal(request.getTitle(), request.getText(), request.getAddress());
         district.addAppeal(appeal);

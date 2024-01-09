@@ -46,7 +46,7 @@ public class SaveAppealRequestDto {
      * Запрос DTO на работы с типом нарушения
      */
     @NotNull
-    private ViolationTypeRequestDto violationType;
+    private String violationType;
 
     /**
      * Запрос DTO на работы с микрорайоном
